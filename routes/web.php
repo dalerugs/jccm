@@ -11,6 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', 'AuthController@showLogin')->name("login");
+
+Route::get('/dashboard', 'DashboardController@index')->name("dashboard");

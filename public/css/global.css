@@ -1,0 +1,35 @@
+.style-1{
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+
+.style-2{
+  font-family: 'Abel', sans-serif;
+}
+
+.white{
+  color: #EDEDED;
+}
+
+.center{
+  text-align: center;
+}
+
+.skin-blue .main-header .navbar {
+    background-color: #131313 !important;
+}
+
+.skin-blue .main-header .logo {
+    background-color: #131313 !important;
+}
+
+.skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side {
+    background-color: #131313 !important;
+}
+
+.skin-blue .sidebar-menu>li.header {
+    color: #98a8af !important;
+}
+
+.skin-blue .main-header .navbar .sidebar-toggle:hover {
+    background-color: #1a2226 !important;
+}

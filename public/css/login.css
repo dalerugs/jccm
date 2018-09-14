@@ -1,0 +1,50 @@
+
+
+#loginPage{
+  background: url("../img/bg-login.PNG");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: black;
+  color: white;
+  padding: 10%;
+  padding-top: 15%;
+  height:100vh;
+}
+
+.title{
+  font-size: 150px;
+}
+
+@media only screen and (max-width: 600px) {
+  .title{
+    font-size: 120px;
+  }
+}
+
+.subtitle{
+  margin-top: -50px;
+  font-size: 30px;
+}
+
+.login-form-container{
+  margin-top: 5%;
+  border: solid 1px white;
+  border-radius: 25px;
+  padding: 5%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+.member-login{
+  font-size: 30px;
+  color: #EDEDED;
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+
+@media only screen and (max-width: 600px) {
+  .member-login{
+    font-size: 20px;
+    color: #EDEDED;
+    font-family: 'Open Sans Condensed', sans-serif;
+  }
+}
