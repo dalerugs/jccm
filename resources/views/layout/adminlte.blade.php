@@ -38,11 +38,18 @@
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
+  <div style="display:none" id="loader" class="overlay">
+      <div style="margin-top:15%" class="row">
+          <div class="col-md-12">
+              <img width="25%" class="center-block" src="{{asset('img/loader.gif')}}">
+          </div>
+      </div>
+  </div>
 <div class="wrapper">
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="{{route('dashboard')}}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>JCCM</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -66,8 +73,8 @@
           <img src="{{ asset('dp/default.png') }}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
-          <a href="#"><i class="fa fa-sign-out text-danger"></i> Sign out</a>
+          <p>{{{Auth::user()->first_name." ".Auth::user()->last_name}}}</p>
+          <a href="{{route('logout')}}"><i class="fa fa-sign-out text-danger"></i> Sign out</a>
         </div>
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -105,7 +112,7 @@
     </li>
 
     <li>
-      <a href="#">
+      <a href="{{route('admin')}}">
         <i class="fa fa-lock"></i> <span>Admin</span>
       </a>
     </li>
@@ -134,13 +141,16 @@
  <!-- /.content-wrapper -->
  <footer class="main-footer">
    <div class="pull-right hidden-xs">
-     <b>Version</b> 1.0.0
+     <b>Version</b> 1.0
    </div>
-   <strong>Copyright &copy; 2018 <a href="{{url('')}}">JCCM Members Management System</a>.</strong> All rights
+   <strong>Copyright &copy; 2018 <a href="{{route('dashboard')}}">JCCM Members Management System</a>.</strong> All rights
    reserved.
  </footer>
 </div>
 <!-- ./wrapper -->
+
+
+
 
 <!-- jQuery 3 -->
 <script src="{{asset('js/jquery.min.js')}}"></script>
@@ -179,6 +189,8 @@
 <script src="{{asset('js/dashboard.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('/js/demo.js')}}"></script>
+
+<script src="{{asset('/js/sweetalert2.all.min.js')}}"></script>
 @yield('js')
 
 </body>

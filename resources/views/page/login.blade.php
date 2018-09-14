@@ -17,21 +17,25 @@
     </div>
     <div class="col-md-5">
       <div class="login-form-container">
-        <form>
+        <form action="{{route('doLogin')}}" method="POST">
+          {{ csrf_field() }}
           <div class="form-group member-login">
             Sign In
           </div>
+          @if($errors->any())
+            <p class="text text-danger center">Invalid username or password.</p>
+          @endif
           <div class="form-group member-login">
             <p style="display:none" id="loginErrorsView" class="center alert alert-danger body-text"></p>
           </div>
           <div class="form-group">
-            <input id="login" type="text" name="login" class="form-control" placeholder="Username" />
+            <input id="login" type="text" name="username" class="form-control" placeholder="Username" required />
           </div>
           <div class="form-group">
-            <input id="password" type="password" name="password" class="form-control" placeholder="• • • • • •" />
+            <input id="password" type="password" name="password" class="form-control" placeholder="• • • • • •" required />
           </div>
           <div class="form-group">
-            <button onclick="signInButton()" class="btn btn-primary btn-block"><b>SIGN IN</b></button>
+            <button class="btn btn-primary btn-block"><b>SIGN IN</b></button>
           </div>
         </form>
       </div>
