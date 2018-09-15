@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use App\Batch;
 
 
 class AdminController extends Controller
@@ -26,6 +27,21 @@ class AdminController extends Controller
     $data['page_description'] = "Browse Users";
     $data['active'] = "adminNav";
     return view("page.manage_users",$data);
+  }
+
+  public function manageMembers(){
+    $data['page_title'] = "Manage Members";
+    $data['page_description'] = "Browse Members";
+    $data['active'] = "adminNav";
+    $data['batches'] = Batch::all();
+    return view("page.manage_members",$data);
+  }
+
+  public function manageBatch(){
+    $data['page_title'] = "Manage Batch";
+    $data['page_description'] = "Browse Batch";
+    $data['active'] = "adminNav";
+    return view("page.manage_batch",$data);
   }
 
 }

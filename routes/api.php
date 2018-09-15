@@ -22,3 +22,9 @@ Route::get('readUsers', 'UserController@read')->name("readUsers");
 Route::get('showUser/{id}', 'UserController@show')->name("showUser");
 Route::post('updateUser', 'UserController@update')->name("updateUser");
 Route::get('deleteUser/{id}', 'UserController@delete')->name("deleteUser");
+
+Route::post('createBatch', 'BatchController@create')->name("createBatch");
+Route::get('readBatch', 'BatchController@read')->name("readBatch");
+Route::get('showBatch/{id}', 'BatchController@show')->name("showBatch");
+Route::post('updateBatch', 'BatchController@update')->name("updateBatch");
+Route::get('deleteBatch/{id}', 'BatchController@delete')->name("deleteBatch");

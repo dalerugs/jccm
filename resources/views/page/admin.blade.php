@@ -15,16 +15,13 @@
       <div class="col-md-12">
     			<ul class="admin-menu">
     				<li>
-    					<a href="#"><i class="fa fa-sitemap fa-3x"></i><br />Browse Networks</a>
-    				</li>
-    				<li>
-    					<a href="#"><i class="fa fa-users fa-3x"></i><br />Search Members</a>
+    					<a href="{{route('manageMembers')}}"><i class="fa fa-users fa-3x"></i><br />Manage Members</a>
     				</li>
     				<li>
     					<a href="#"><i class="fa fa-check-square-o fa-3x"></i><br />Manage Requests</a>
     				</li>
     				<li>
-    					<a href="#"><i class="fa fa-certificate fa-3x"></i><br />Manage Batch</a>
+    					<a href="{{route('manageBatch')}}"><i class="fa fa-certificate fa-3x"></i><br />Manage Batch</a>
     				</li>
     				<li>
     					<a href="#"><i class="fa fa-globe fa-3x"></i><br />Manage G12</a>

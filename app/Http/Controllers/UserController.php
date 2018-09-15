@@ -58,7 +58,14 @@ class UserController extends Controller
             'password' => 'required|string|min:6|confirmed'
         ]);
         if ($validator->passes()) {
-            $user->update($request->all());
+            $user->update([
+                'first_name' => $request->input('first_name'),
+                'last_name' => $request->input('last_name'),
+                'username' => $request->input('username'),
+                'type' => $request->input('type'),
+                'network' => empty($request->input('network'))?0:$request->input('network'),
+                'password' => Hash::make($request->input('password')),
+            ]);
             return response()->json([
               'success'=> true,
             ]);
