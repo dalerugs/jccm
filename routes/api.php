@@ -19,3 +19,6 @@ use Illuminate\Http\Request;
 
 Route::post('createUser', 'UserController@create')->name("createUser");
 Route::get('readUsers', 'UserController@read')->name("readUsers");
+Route::get('showUser/{id}', 'UserController@show')->name("showUser");
+Route::post('updateUser', 'UserController@update')->name("updateUser");
+Route::get('deleteUser/{id}', 'UserController@delete')->name("deleteUser");

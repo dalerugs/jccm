@@ -17,12 +17,14 @@ class AdminController extends Controller
   public function index(){
     $data['page_title'] = "Admin";
     $data['page_description'] = "View Admin Menu";
+    $data['active'] = "adminNav";
     return view("page.admin",$data);
   }
 
   public function manageUsers(){
     $data['page_title'] = "Manage Users";
     $data['page_description'] = "Browse Users";
+    $data['active'] = "adminNav";
     return view("page.manage_users",$data);
   }
 

@@ -33,6 +33,8 @@
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
+    <link href="{{ asset('css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css">
+
     <link href="{{ asset('css/global.css') }}" rel="stylesheet" type="text/css">
     @yield('css')
 </head>
@@ -80,38 +82,38 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN MENU</li>
-        <li>
+        <li id="dashboardNav" >
           <a href="{{route('dashboard')}}">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
-		<li>
+		<li id="g12Nav" >
       <a href="#">
         <i class="fa fa-globe"></i> <span>G12</span>
       </a>
     </li>
-		<li>
+		<li id="networksNav" >
       <a href="#">
         <i class="fa fa-sitemap"></i> <span>Networks</span>
       </a>
     </li>
-		<li>
+		<li id="membersNav" >
       <a href="#">
         <i class="fa fa-users"></i> <span>Members</span>
       </a>
     </li>
-		<li>
+		<li id="pepsolNav" >
       <a href="#">
         <i class="fa fa-line-chart"></i> <span>PEPSOL Report</span>
       </a>
     </li>
-		<li>
+		<li id="filesNav" >
       <a href="#">
         <i class="fa fa-files-o"></i> <span>Files</span>
       </a>
     </li>
 
-    <li>
+    <li id="adminNav" >
       <a href="{{route('admin')}}">
         <i class="fa fa-lock"></i> <span>Admin</span>
       </a>
@@ -191,6 +193,13 @@
 <script src="{{asset('/js/demo.js')}}"></script>
 
 <script src="{{asset('/js/sweetalert2.all.min.js')}}"></script>
+
+<script src="{{asset('/js/jquery.dataTables.min.js')}}"></script>
+
+<script>
+    $('#'+"{{$active}}").addClass("active");
+</script>
+
 @yield('js')
 
 </body>

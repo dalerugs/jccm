@@ -73,3 +73,11 @@ table tbody tr td{
 .swal2-popup {
   font-size: 1.6rem !important;
 }
+
+table.dataTable thead th, table.dataTable tfoot td, table.dataTable.no-footer{
+  border-bottom: none;
+}
+
+.margin-10{
+  margin: 10px;
+}

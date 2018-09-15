@@ -15,6 +15,7 @@ class DashboardController extends Controller
     public function index(){
       $data['page_title'] = "Dashboard";
       $data['page_description'] = "View Summary of Data";
+      $data['active'] = "dashboardNav";
       return view("page.dashboard",$data);
     }
 }
