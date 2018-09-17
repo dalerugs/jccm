@@ -209,9 +209,9 @@
              $.each( data, function( key, user ) {
                var status="";
                 if (!user.inactive) {
-                  status = "<button onclick='inactiveBtn("+user.id+")' class='btn btn-warning btn-block btn-sm'>Inactive</button>";
+                  status = "<button onclick='toggleMemberStatusBtn("+user.id+",1)' class='btn btn-warning btn-block btn-sm'>Deactivate</button>";
                 }else {
-                  status = "<button onclick='activeBtn("+user.id+")' class='btn btn-success btn-block btn-sm'>Active</button>";
+                  status = "<button onclick='toggleMemberStatusBtn("+user.id+",0)' class='btn btn-success btn-block btn-sm'>Activate</button>";
                 }
                 html +=
                 "<tr>" +
@@ -410,6 +410,51 @@
            }
        });
     });
+
+    function toggleMemberStatusBtn(id, status){
+      const swalWithBootstrapButtons = swal.mixin({
+        confirmButtonClass: 'btn btn-success margin-10',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+      });
+
+      swalWithBootstrapButtons({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this action!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, '+(status?"deactivate":"activate")+' it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+          $("#loader").show();
+          $.ajax({
+               url: "{{ url('api/toggleMemberStatus') }}/"+id+"/"+status,
+               success:function(data) {
+                 $("#loader").hide();
+                 swalWithBootstrapButtons(
+                   (status?"Deactivated":"Activated"),
+                   'Data has been deleted.',
+                   'success'
+                 ).then(function(){
+                    location.reload();
+                    }
+                 );
+               }
+           });
+        } else if (
+          // Read more about handling dismissals
+          result.dismiss === swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons(
+            'Cancelled',
+            '',
+            'error'
+          );
+        }
+      });
+    }
 
     function deleteBtn(id){
       const swalWithBootstrapButtons = swal.mixin({

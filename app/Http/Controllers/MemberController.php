@@ -198,6 +198,13 @@ class MemberController extends Controller
       }
   }
 
+  public function updateStatus($id,$inactive){
+    $member = Member ::findOrFail($id);
+    $member->inactive=$inactive;
+    $member->save();
+    return 204;
+  }
+
   public function delete($id)
   {
       $member = Member ::findOrFail($id);
