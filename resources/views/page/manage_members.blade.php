@@ -166,10 +166,14 @@
                   <option value="1" >Completed</option>
               </select>
             </div>
+
             <div class="form-group">
               <label>Baptism</label>
               <select class="form-control" name="baptism">
                   <option value="" disabled selected value>Select Baptism Year</option>
+                  @foreach (range( date('Y'), 1990 ) as $year)
+                      <option value="{{$year}}" >{{$year}}</option>
+                  @endforeach
               </select>
             </div>
           </div>
@@ -192,14 +196,23 @@
 
 <script>
 
+    var members = [];
+
     $( document ).ready(function() {
       $("#loader").show();
       $.ajax({
            url: "{{ route('readMembers') }}",
            success:function(data) {
              $("#loader").hide();
+             members = data;
              var html = "";
              $.each( data, function( key, user ) {
+               var status="";
+                if (!user.inactive) {
+                  status = "<button onclick='inactiveBtn("+user.id+")' class='btn btn-warning btn-block btn-sm'>Inactive</button>";
+                }else {
+                  status = "<button onclick='activeBtn("+user.id+")' class='btn btn-success btn-block btn-sm'>Active</button>";
+                }
                 html +=
                 "<tr>" +
                   "<td><img width='80px' src='{{ asset('dp') }}/"+user.dp_filename+"' /></td>" +
@@ -209,8 +222,10 @@
                   "<td>"+Math.pow(12, user.level)+"</td>" +
                   "<td>"+(user.inactive?"Inactive":"Active")+"</td>" +
                   "<td>" +
-                  "<button onclick='editUserBtn("+user.id+")' class='btn btn-info btn-block'>Edit</button>" +
-                  "<button onclick='deleteUserBtn("+user.id+")' class='btn btn-danger btn-block'>Delete</button>" +
+                  "<button onclick='viewBtn("+user.id+")' class='btn btn-primary btn-block btn-sm'>View</button>" +
+                  "<button onclick='editBtn("+user.id+")' class='btn btn-info btn-block btn-sm'>Edit</button>" +
+                  status +
+                  "<button onclick='deleteBtn("+user.id+")' class='btn btn-danger btn-block btn-sm'>Delete</button>" +
                   "</td>" +
                 "</tr>";
                 });
@@ -260,6 +275,37 @@
         }else {
           $("#leaderView").fadeOut();
         }
+
+        if ($("select[name='network_id']").val()) {
+          filterLeaders();
+        }
+    });
+
+    $("select[name='network_id']").on('change', function() {
+      filterLeaders();
+    });
+
+    function filterLeaders(){
+      var networkId = $("select[name='network_id']").val();
+      var level =   $("select[name='level']").val();
+      html = "<option value='' disabled selected value>Select Leader</option>";
+      $.each( members, function( key, member ) {
+        if (member.network_id == networkId && member.level==(parseInt(level)-1)) {
+          html += "<option value='"+member.id+"' >"+member.first_name+" "+member.last_name+"</option>";
+        }
+       });
+       $("select[name='leader_id']").html(html);
+    }
+
+    $("select[name='sex']").on('change', function() {
+        var sex = this.value;
+        html = "<option value='' disabled selected value>Select Network Leader</option>";
+        $.each( members, function( key, member ) {
+          if (member.sex == sex && member.level == 1) {
+            html += "<option value='"+member.id+"' >"+member.first_name+" "+member.last_name+"</option>";
+          }
+         });
+         $("select[name='network_id']").html(html);
     });
 
     $( "#saveNewBtn" ).click(function() {
@@ -295,36 +341,51 @@
        });
     });
 
-    function editUserBtn(id){
+    function editBtn(id){
+      $('select[name="network_id"]').val("<option value='' disabled selected value>Select Network Leader</option>");
+      $('select[name="leader_id"]').val("<option value='' disabled selected value>Select Leader</option>");
       $("#loader").show();
       $.ajax({
-           url: "{{ url('api/showUser') }}/"+id,
-           success:function(data) {
-             $("#loader").hide();
-             console.log(data);
+           url: "{{ url('api/showMember') }}/"+id,
+           success:function(member) {
+             console.log(member);
              $('input[name="id"]').show();
-             $('input[name="id"]').val(data.id);
-             $('input[name="first_name"]').val(data.first_name);
-             $('input[name="last_name"]').val(data.last_name);
-             $('select[name="type"]').val(data.type).change();
-             $('input[name="username"]').val(data.username);
-             $("#modalTitle").text("Edit User");
-             $( "#saveEditUserBtn" ).show();
-             $( "#saveNewUserBtn" ).hide();
-             $( "#userModal" ).modal('show');
+             $('input[name="id"]').val(member.id);
+             $('input[name="first_name"]').val(member.first_name);
+             $('input[name="last_name"]').val(member.last_name);
+             $('input[name="birth_date"]').val(member.birth_date);
+             $('select[name="sex"]').val(member.sex).change();
+             $('textarea[name="address"]').val(member.address);
+             $('select[name="level"]').val(member.level).change();
+             $('select[name="network_id"]').val(member.network_id).change();
+             $('select[name="leader_id"]').val(member.leader_id).change();
+             $('select[name="batch"]').val(member.training.batch).change();
+             $('select[name="batch"]').val(member.training.batch).change();
+             $('select[name="pre_encounter"]').val(member.training.pre_encounter).change();
+             $('select[name="encounter"]').val(member.training.encounter).change();
+             $('select[name="post_encounter"]').val(member.training.post_encounter).change();
+             $('select[name="sol1"]').val(member.training.sol1).change();
+             $('select[name="sol2"]').val(member.training.sol2).change();
+             $('select[name="re_encounter"]').val(member.training.re_encounter).change();
+             $('select[name="sol3"]').val(member.training.sol3).change();
+             $('select[name="baptism"]').val(member.training.baptism).change();
+             $( "#saveEditBtn" ).show();
+             $( "#saveNewBtn" ).hide();
+             $("#loader").hide();
+             $( "#formModal" ).modal('show');
            }
        });
 
     }
 
-    $( "#saveEditUserBtn" ).click(function() {
+    $( "#saveEditBtn" ).click(function() {
       $("#loader").show();
       $.ajax({
-           url: "{{ route('updateUser') }}",
+           url: "{{ route('updateMember') }}",
            type: 'POST',
-           dataType: 'json',
-           data: $("#userForm").serialize(),
-           encode:true,
+           data: new FormData($("#dataForm")[0]),
+           processData: false,
+           contentType: false,
            success:function(data) {
              $("#loader").hide();
              if (data.success) {
