@@ -201,6 +201,11 @@ class MemberController extends Controller
   public function delete($id)
   {
       $member = Member ::findOrFail($id);
+      $training = Training::where('member', $member->id)->first();
+      $training->delete();
+      if ($member->dp_filename != "default.png") {
+        unlink(public_path().'/dp/'.$member->dp_filename);
+      }
       $member->delete();
       return 204;
   }

@@ -411,7 +411,7 @@
        });
     });
 
-    function deleteUserBtn(id){
+    function deleteBtn(id){
       const swalWithBootstrapButtons = swal.mixin({
         confirmButtonClass: 'btn btn-success margin-10',
         cancelButtonClass: 'btn btn-danger',
@@ -430,7 +430,7 @@
         if (result.value) {
           $("#loader").show();
           $.ajax({
-               url: "{{ url('api/deleteUser') }}/"+id,
+               url: "{{ url('api/deleteMember') }}/"+id,
                success:function(data) {
                  $("#loader").hide();
                  swalWithBootstrapButtons(
