@@ -72,7 +72,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="{{ asset('dp/default.png') }}" class="img-circle" alt="User Image">
+          <img src="{{ asset('dp/'.$profile_picture) }}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>{{{Auth::user()->first_name." ".Auth::user()->last_name}}}</p>
@@ -87,11 +87,13 @@
         <i class="fa fa-dashboard"></i> <span>Dashboard</span>
       </a>
     </li>
+    @if(Auth::user()->type=="NET_LEAD")
 		<li id="networksNav" >
       <a href="#">
-        <i class="fa fa-sitemap"></i> <span>Networks</span>
+        <i class="fa fa-sitemap"></i> <span>My Network</span>
       </a>
     </li>
+    @endif
 		<li id="membersNav" >
       <a href="{{route('members')}}">
         <i class="fa fa-users"></i> <span>Members</span>
@@ -107,12 +109,13 @@
         <i class="fa fa-files-o"></i> <span>Files</span>
       </a>
     </li>
-
+    @if(Auth::user()->type=="ADMIN")
     <li id="adminNav" >
       <a href="{{route('admin')}}">
         <i class="fa fa-lock"></i> <span>Admin</span>
       </a>
     </li>
+    @endif
   </section>
     <!-- /.sidebar -->
   </aside>
@@ -129,7 +132,6 @@
 
 <!-- Main content -->
 <section class="content">
-
 @yield('content')
 
 </section>

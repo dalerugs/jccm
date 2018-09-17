@@ -7,7 +7,6 @@ use Auth;
 
 class AuthController extends Controller
 {
-
     public function showLogin(){
       $this->middleware('guest');
       $data['page_title'] = "Login";

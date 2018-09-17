@@ -8,15 +8,22 @@ use App\Training;
 use App\Batch;
 use Validator;
 use Carbon\Carbon;
+use Auth;
 
 class MemberController extends Controller
 {
 
   public function showMembersPage(){
+    $this->middleware('auth');
     $data['page_title'] = "Members";
     $data['page_description'] = "Browse Members";
     $data['active'] = "membersNav";
     $data['networks'] = Member::all()->where('level',1);
+    $data['profile_picture'] = "default.png";
+    if (Auth::user()->type=="NET_LEAD") {
+      $member = Member::find(Auth::user()->network);
+      $data['profile_picture'] = $member->dp_filename;
+    }
     return view("page.members",$data);
   }
 

@@ -5,14 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\File;
 use Validator;
+use Auth;
+use App\Member;
 
 class FileController extends Controller
 {
 
   public function showFilesPage(){
+    $this->middleware('auth');
     $data['page_title'] = "Files";
     $data['page_description'] = "Browse Files";
     $data['active'] = "filesNav";
+    $data['profile_picture'] = "default.png";
+    if (Auth::user()->type=="NET_LEAD") {
+      $member = Member::find(Auth::user()->network);
+      $data['profile_picture'] = $member->dp_filename;
+    }
     return view("page.files",$data);
   }
 

@@ -116,6 +116,10 @@
                   <td id="address" ></td>
                 </tr>
                 <tr>
+                  <th>Level:</th>
+                  <td id="level" ></td>
+                </tr>
+                <tr>
                   <th>Network Leader:</th>
                   <td id="networkLeader" ></td>
                 </tr>
@@ -298,6 +302,7 @@
              $('#birthDate').text(member.formatted_birth_date);
              $('#age').text(member.age);
              $('#address').text(member.address);
+             $('#level').text(Math.pow(12,member.level));
              $('#networkLeader').text(member.network_leader);
              $('#leader').text(member.leader);
              $('#batch').text(member.batch_name);

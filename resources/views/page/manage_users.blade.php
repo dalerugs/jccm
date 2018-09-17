@@ -63,7 +63,10 @@
           <div id="networkView" style="display:none" class="form-group">
             <label>Network</label>
             <select class="form-control" name="network">
-
+              <option value="" selected disabled>Select Network</option>
+              @foreach ($networks as $network)
+                  <option value="{{$network->id}}" >{{$network->first_name." ".$network->last_name}}</option>
+              @endforeach
             </select>
           </div>
           <div class="form-group">
