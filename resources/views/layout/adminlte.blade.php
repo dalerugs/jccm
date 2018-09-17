@@ -81,15 +81,10 @@
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN MENU</li>
-        <li id="dashboardNav" >
-          <a href="{{route('dashboard')}}">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-          </a>
-        </li>
-		<li id="g12Nav" >
-      <a href="#">
-        <i class="fa fa-globe"></i> <span>G12</span>
+    <li class="header">MAIN MENU</li>
+    <li id="dashboardNav" >
+      <a href="{{route('dashboard')}}">
+        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
       </a>
     </li>
 		<li id="networksNav" >
@@ -108,7 +103,7 @@
       </a>
     </li>
 		<li id="filesNav" >
-      <a href="#">
+      <a href="{{route('files')}}">
         <i class="fa fa-files-o"></i> <span>Files</span>
       </a>
     </li>

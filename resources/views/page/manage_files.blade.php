@@ -82,7 +82,7 @@
              $("#loader").hide();
              var html = "";
              $.each( data, function( key, file ) {
-                var filepath = "{{asset('files')}}/"+file.filename;
+                var filepath = "{{asset('files_upload')}}/"+file.filename;
                 html +=
                 "<tr>" +
                   "<td>"+file.name+"</td>" +

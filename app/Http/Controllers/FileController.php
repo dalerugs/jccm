@@ -8,6 +8,14 @@ use Validator;
 
 class FileController extends Controller
 {
+
+  public function showFilesPage(){
+    $data['page_title'] = "Files";
+    $data['page_description'] = "Browse Files";
+    $data['active'] = "filesNav";
+    return view("page.files",$data);
+  }
+
   public function create(Request $request){
     $validator = Validator::make($request->all(), [
         'file' => 'required',
@@ -17,7 +25,7 @@ class FileController extends Controller
     if ($validator->passes()) {
           $file = $request->file('file');
           $filename = str_random(60).'.'.$file->getClientOriginalExtension();
-          $file->move(public_path().'/files/', $filename);
+          $file->move(public_path().'/files_upload/', $filename);
 
           $file = File::create([
             'name' => $request->input('name'),
@@ -72,7 +80,7 @@ class FileController extends Controller
   public function delete($id)
   {
       $file = File::findOrFail($id);
-      unlink(public_path().'/files/'.$file->filename);
+      unlink(public_path().'/files_upload/'.$file->filename);
       $file->delete();
       return 204;
   }

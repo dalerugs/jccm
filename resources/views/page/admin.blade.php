@@ -24,9 +24,6 @@
     					<a href="{{route('manageBatch')}}"><i class="fa fa-certificate fa-3x"></i><br />Manage Batch</a>
     				</li>
     				<li>
-    					<a href="{{route('admin')}}"><i class="fa fa-globe fa-3x"></i><br />Manage G12</a>
-    				</li>
-    				<li>
     					<a href="{{route('manageFiles')}}"><i class="fa fa-files-o fa-3x"></i><br />Manage Files</a>
     				</li>
     				<li>
