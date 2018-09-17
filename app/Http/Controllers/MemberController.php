@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Member;
 use App\Training;
+use App\Batch;
 use Validator;
+use Carbon\Carbon;
 
 class MemberController extends Controller
 {
@@ -17,7 +19,6 @@ class MemberController extends Controller
           'birth_date' => 'required',
           'address' => 'required',
           'level' => 'required',
-          'batch' => 'required',
       ]);
       if ($validator->passes()) {
         $filename = "default.png";
@@ -50,7 +51,7 @@ class MemberController extends Controller
         }
         Training::create([
             'member'=> $member->id,
-            'batch'=> $request->input('batch'),
+            'batch'=> empty($request->input('batch'))?0:$request->input('batch'),
             'pre_encounter'=> $request->input('pre_encounter'),
             'encounter'=> $request->input('encounter'),
             'post_encounter'=> $request->input('post_encounter'),
@@ -86,6 +87,13 @@ class MemberController extends Controller
         $member['leader'] = $leader->first_name." ".$leader->last_name;
       }
       $member['training'] = Training::where('member', $member->id)->first();
+      $member['batch_name'] = "N/A";
+      if ($member['training']->batch) {
+        $batch = Batch::where('id', $member['training']->batch)->first();
+        $member['batch_name'] = $batch['no']." - ".$batch['name'];
+      }
+      $member['formatted_birth_date']=date("F d, Y", strtotime($member->birth_date));
+      $member['age'] = Carbon::parse($member->birth_date)->age;
     }
     return $members;
   }
@@ -112,7 +120,7 @@ class MemberController extends Controller
     foreach ($members as $member) {
       $member['network_leader'] = "N/A";
       $member['leader'] = "N/A";
-      if ($member->network_id > 0) {
+      if ($member->network_id > 0 && $member->level > 1) {
         $network_leader = Member::find($member->network_id);
         $member['network_leader'] = $network_leader->first_name." ".$network_leader->last_name;
       }
@@ -121,6 +129,13 @@ class MemberController extends Controller
         $member['leader'] = $leader->first_name." ".$leader->last_name;
       }
       $member['training'] = Training::where('member', $member->id)->first();
+      $member['batch_name'] = "N/A";
+      if ($member['training']->batch) {
+        $batch = Batch::where('id', $member['training']->batch)->first();
+        $member['batch_name'] = $batch['no']." - ".$batch['name'];
+      }
+      $member['formatted_birth_date']=date("F d, Y", strtotime($member->birth_date));
+      $member['age'] = Carbon::parse($member->birth_date)->age;
     }
     return $members;
   }
@@ -128,7 +143,24 @@ class MemberController extends Controller
   public function show($id)
   {
       $member = Member::find($id);
+      $member['network_leader'] = "N/A";
+      $member['leader'] = "N/A";
+      if ($member->network_id > 0 && $member->level > 1) {
+        $network_leader = Member::find($member->network_id);
+        $member['network_leader'] = $network_leader->first_name." ".$network_leader->last_name;
+      }
+      if ($member->leader_id > 0) {
+        $leader = Member::find($member->leader_id);
+        $member['leader'] = $leader->first_name." ".$leader->last_name;
+      }
       $member['training'] = Training::where('member', $member->id)->first();
+      $member['batch_name'] = "N/A";
+      if ($member['training']->batch) {
+        $batch = Batch::where('id', $member['training']->batch)->first();
+        $member['batch_name'] = $batch['no']." - ".$batch['name'];
+      }
+      $member['formatted_birth_date']=date("F d, Y", strtotime($member->birth_date));
+      $member['age'] = Carbon::parse($member->birth_date)->age;
       return $member;
   }
 
@@ -143,7 +175,6 @@ class MemberController extends Controller
           'birth_date' => 'required',
           'address' => 'required',
           'level' => 'required',
-          'batch' => 'required',
       ]);
       if ($validator->passes()) {
           if ($request->input('level')==2) {
@@ -168,7 +199,9 @@ class MemberController extends Controller
             $member->save();
           }
           if($request->hasFile('picture')) {
-             unlink(public_path().'/dp/'.$member->dp_filename);
+              if ($member->dp_filename != "default.png") {
+                unlink(public_path().'/dp/'.$member->dp_filename);
+              }
              $file = $request->file('picture');
              $filename = str_random(60).'.'.$file->getClientOriginalExtension();
              $file->move(public_path().'/dp/', $filename);

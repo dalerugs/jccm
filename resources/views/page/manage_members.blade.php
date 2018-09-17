@@ -111,7 +111,7 @@
             <div class="form-group">
               <label>Batch</label>
               <select class="form-control choose" name="batch">
-                  <option value="" disabled selected value>Select Batch</option>
+                  <option value="" selected value>Select Batch</option>
                   @foreach ($batches as $batch)
                       <option value="{{$batch->id}}" >{{$batch->no." - ".$batch->name}}</option>
                   @endforeach
@@ -120,49 +120,49 @@
             <div class="form-group">
               <label>Pre Encounter</label>
               <select class="form-control" name="pre_encounter">
-                  <option value="0" >Not yet completed</option>
+                  <option value="0" >Not Yet Completed</option>
                   <option value="1" >Completed</option>
               </select>
             </div>
             <div class="form-group">
               <label>Encounter</label>
               <select class="form-control" name="encounter">
-                  <option value="0" >Not yet completed</option>
+                  <option value="0" >Not Yet Completed</option>
                   <option value="1" >Completed</option>
               </select>
             </div>
             <div class="form-group">
               <label>Post Encounter</label>
               <select class="form-control" name="post_encounter">
-                  <option value="0" >Not yet completed</option>
+                  <option value="0" >Not Yet Completed</option>
                   <option value="1" >Completed</option>
               </select>
             </div>
             <div class="form-group">
               <label>SOL 1</label>
               <select class="form-control" name="sol1">
-                  <option value="0" >Not yet completed</option>
+                  <option value="0" >Not Yet Completed</option>
                   <option value="1" >Completed</option>
               </select>
             </div>
             <div class="form-group">
               <label>SOL 2</label>
               <select class="form-control" name="sol2">
-                  <option value="0" >Not yet completed</option>
+                  <option value="0" >Not Yet Completed</option>
                   <option value="1" >Completed</option>
               </select>
             </div>
             <div class="form-group">
               <label>Re Encounter</label>
               <select class="form-control" name="re_encounter">
-                  <option value="0" >Not yet completed</option>
+                  <option value="0" >Not Yet Completed</option>
                   <option value="1" >Completed</option>
               </select>
             </div>
             <div class="form-group">
               <label>SOL 3</label>
               <select class="form-control" name="sol3">
-                  <option value="0" >Not yet completed</option>
+                  <option value="0" >Not Yet Completed</option>
                   <option value="1" >Completed</option>
               </select>
             </div>
@@ -170,7 +170,7 @@
             <div class="form-group">
               <label>Baptism</label>
               <select class="form-control" name="baptism">
-                  <option value="" disabled selected value>Select Baptism Year</option>
+                  <option value="" selected value>Select Baptism Year</option>
                   @foreach (range( date('Y'), 1990 ) as $year)
                       <option value="{{$year}}" >{{$year}}</option>
                   @endforeach
@@ -183,6 +183,106 @@
       <div style="border:none" class="modal-footer">
         <button style="display:none" id="saveNewBtn" type="button" class="btn btn-primary" >Save</button>
         <button style="display:none" id="saveEditBtn" type="button" class="btn btn-primary" >Save</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="viewModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">View Member</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4">
+            <img  id="dp"  width='100%' src="" />
+          </div>
+          <div class="col-md-8">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <tr>
+                  <th style="text-align:center" colspan="2">INFORMATION</th>
+                </tr>
+                <tr>
+                  <th>Name:</th>
+                  <td id="name" ></td>
+                </tr>
+                <tr>
+                  <th>Sex:</th>
+                  <td id="sex" ></td>
+                </tr>
+                <tr>
+                  <th>Birth Date:</th>
+                  <td id="birthDate" ></td>
+                </tr>
+                <tr>
+                  <th>Age:</th>
+                  <td id="age" ></td>
+                </tr>
+                <tr>
+                  <th>Address:</th>
+                  <td id="address" ></td>
+                </tr>
+                <tr>
+                  <th>Network Leader:</th>
+                  <td id="networkLeader" ></td>
+                </tr>
+                <tr>
+                  <th>Leader:</th>
+                  <td id="leader" ></td>
+                </tr>
+                <tr>
+                  <th style="text-align:center" colspan="2">PEPSOL & BAPTISM</th>
+                </tr>
+                <tr>
+                  <th>Batch:</th>
+                  <td id="batch" ></td>
+                </tr>
+                <tr>
+                  <th>Pre Encounter:</th>
+                  <td id="preEncounter" ></td>
+                </tr>
+                <tr>
+                  <th>Encounter:</th>
+                  <td id="encounter" ></td>
+                </tr>
+                <tr>
+                  <th>Post Encounter:</th>
+                  <td id="postEncounter" ></td>
+                </tr>
+                <tr>
+                  <th>SOL 1:</th>
+                  <td id="sol1" ></td>
+                </tr>
+                <tr>
+                  <th>SOL 2:</th>
+                  <td id="sol2" ></td>
+                </tr>
+                <tr>
+                  <th>Re Encounter:</th>
+                  <td id="reEncounter" ></td>
+                </tr>
+                <tr>
+                  <th>SOL 3:</th>
+                  <td id="sol3" ></td>
+                </tr>
+                <tr>
+                  <th>BAPTISM:</th>
+                  <td id="baptism" ></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -206,26 +306,26 @@
              $("#loader").hide();
              members = data;
              var html = "";
-             $.each( data, function( key, user ) {
+             $.each( data, function( key, member ) {
                var status="";
-                if (!user.inactive) {
-                  status = "<button onclick='toggleMemberStatusBtn("+user.id+",1)' class='btn btn-warning btn-block btn-sm'>Deactivate</button>";
+                if (!member.inactive) {
+                  status = "<button onclick='toggleMemberStatusBtn("+member.id+",1)' class='btn btn-warning btn-block btn-sm'>Deactivate</button>";
                 }else {
-                  status = "<button onclick='toggleMemberStatusBtn("+user.id+",0)' class='btn btn-success btn-block btn-sm'>Activate</button>";
+                  status = "<button onclick='toggleMemberStatusBtn("+member.id+",0)' class='btn btn-success btn-block btn-sm'>Activate</button>";
                 }
                 html +=
                 "<tr>" +
-                  "<td><img width='80px' src='{{ asset('dp') }}/"+user.dp_filename+"' /></td>" +
-                  "<td>"+user.first_name+" "+user.last_name+"</td>" +
-                  "<td>"+user.network_leader+"</td>" +
-                  "<td>"+user.leader+"</td>" +
-                  "<td>"+Math.pow(12, user.level)+"</td>" +
-                  "<td>"+(user.inactive?"Inactive":"Active")+"</td>" +
+                  "<td><img width='80px' src='{{ asset('dp') }}/"+member.dp_filename+"' /></td>" +
+                  "<td>"+member.first_name+" "+member.last_name+"</td>" +
+                  "<td>"+member.network_leader+"</td>" +
+                  "<td>"+member.leader+"</td>" +
+                  "<td>"+Math.pow(12, member.level)+"</td>" +
+                  "<td>"+(member.inactive?"Inactive":"Active")+"</td>" +
                   "<td>" +
-                  "<button onclick='viewBtn("+user.id+")' class='btn btn-primary btn-block btn-sm'>View</button>" +
-                  "<button onclick='editBtn("+user.id+")' class='btn btn-info btn-block btn-sm'>Edit</button>" +
+                  "<button onclick='viewBtn("+member.id+")' class='btn btn-primary btn-block btn-sm'>View</button>" +
+                  "<button onclick='editBtn("+member.id+")' class='btn btn-info btn-block btn-sm'>Edit</button>" +
                   status +
-                  "<button onclick='deleteBtn("+user.id+")' class='btn btn-danger btn-block btn-sm'>Delete</button>" +
+                  "<button onclick='deleteBtn("+member.id+")' class='btn btn-danger btn-block btn-sm'>Delete</button>" +
                   "</td>" +
                 "</tr>";
                 });
@@ -235,6 +335,34 @@
        });
     });
 
+    function viewBtn(id){
+      $("#loader").show();
+      $.ajax({
+           url: "{{ url('api/showMember') }}/"+id,
+           success:function(member) {
+             console.log(member);
+             $('#dp').attr('src',"{{ asset('dp') }}/"+member.dp_filename);
+             $('#name').text(member.first_name+" "+member.last_name);
+             $('#sex').text(member.sex=="MALE"?"Male":"Female");
+             $('#birthDate').text(member.formatted_birth_date);
+             $('#age').text(member.age);
+             $('#address').text(member.address);
+             $('#networkLeader').text(member.network_leader);
+             $('#leader').text(member.leader);
+             $('#batch').text(member.batch_name);
+             $('#preEncounter').text((member.training.pre_encounter)?"Completed":"Not Yet Completed");
+             $('#encounter').text((member.training.encounter)?"Completed":"Not Yet Completed");
+             $('#postEncounter').text((member.training.post_encounter)?"Completed":"Not Yet Completed");
+             $('#sol1').text((member.training.sol1)?"Completed":"Not Yet Completed");
+             $('#sol2').text((member.training.sol2)?"Completed":"Not Yet Completed");
+             $('#reEncounter').text((member.training.re_encounter)?"Completed":"Not Yet Completed");
+             $('#sol3').text((member.training.sol3)?"Completed":"Not Yet Completed");
+             $('#baptism').text((!member.training.baptism)?"N/A":member.training.baptism);
+             $("#loader").hide();
+             $( "#viewModal" ).modal('show');
+           }
+       });
+    }
 
     $( "#addNewBtn" ).click(function() {
       $("#modalTitle").text("Add New Member");
@@ -360,7 +488,7 @@
              $('select[name="network_id"]').val(member.network_id).change();
              $('select[name="leader_id"]').val(member.leader_id).change();
              $('select[name="batch"]').val(member.training.batch).change();
-             $('select[name="batch"]').val(member.training.batch).change();
+             $('select[name="batch"]').val((member.training.batch?member.training.batch:"")).change();
              $('select[name="pre_encounter"]').val(member.training.pre_encounter).change();
              $('select[name="encounter"]').val(member.training.encounter).change();
              $('select[name="post_encounter"]').val(member.training.post_encounter).change();
