@@ -11,10 +11,54 @@
     <h3 class="box-title">Members Data</h3>
   </div>
   <div class="box-body">
+    <div class="row">
+      <form id="filterForm">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Filter By Network:</label>
+            <select name="filter_network" style="margin-bottom:20px" class="form-control">
+              <option value="" >All Networks</option>
+              @foreach ($networks as $network)
+                  <option value="{{$network->id}}" >{{$network->first_name." ".$network->last_name}}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Filter By Level:</label>
+            <select name="filter_level" style="margin-bottom:20px" class="form-control">
+              <option value="" >All Levels</option>
+              @for($i=1;$i<=5;$i++)
+              <option value="{{$i}}">{{pow(12,$i)}}</option>
+              @endfor
+            </select>
+          </div>
+          <div  id='filterLeaderView' style="display:none" class="form-group">
+            <label>Filter By Leader:</label>
+            <select name="filter_leader" style="margin-bottom:20px" class="form-control">
+              <option value="" >All Leaders</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Filter By Status:</label>
+            <select name="filter_status" style="margin-bottom:20px" class="form-control">
+              <option value="" >All Status</option>
+              <option value="0" >Active</option>
+              <option value="1" >Inactive</option>
+            </select>
+          </div>
+        </div>
+      </form>
+      <div class="col-md-3">
+        <button style="margin-bottom:20px" id="addNewBtn" class="btn btn-default pull-right" >
+          <i style="margin-right:5px" class="fa fa-plus" aria-hidden="true"></i><b>ADD NEW MEMBER</b>
+        </button>
+      </div>
+    </div>
     <div class="table-responsive">
-      <button style="margin-bottom:20px" id="addNewBtn" class="btn btn-default pull-right" >
-        <i style="margin-right:5px" class="fa fa-plus" aria-hidden="true"></i><b>ADD NEW MEMBER</b>
-      </button>
       <table id="dataTable" style="margin-top:50px" class="table table-hover table-bordered">
         <thead>
           <tr>
@@ -297,6 +341,8 @@
 <script>
 
     var members = [];
+    var leaders = [];
+    var dataTable;
 
     $( document ).ready(function() {
       $("#loader").show();
@@ -304,14 +350,13 @@
            url: "{{ route('readMembers') }}",
            success:function(data) {
              $("#loader").hide();
-             members = data;
+             members = data.members;
+             leaders = data.leaders;
              var html = "";
-             $.each( data, function( key, member ) {
-               var status="";
+             $.each( data.members, function( key, member ) {
+               var status="<button onclick='toggleMemberStatusBtn("+member.id+",0)' class='btn btn-success btn-block btn-sm'>Activate</button>";
                 if (!member.inactive) {
                   status = "<button onclick='toggleMemberStatusBtn("+member.id+",1)' class='btn btn-warning btn-block btn-sm'>Deactivate</button>";
-                }else {
-                  status = "<button onclick='toggleMemberStatusBtn("+member.id+",0)' class='btn btn-success btn-block btn-sm'>Activate</button>";
                 }
                 html +=
                 "<tr>" +
@@ -330,7 +375,88 @@
                 "</tr>";
                 });
                 $("#tableBody").html(html);
-                $('#dataTable').DataTable();
+                dataTable = $('#dataTable').DataTable();
+           }
+       });
+    });
+
+    $("#filterForm").on('change', function() {
+      $("#loader").show();
+      var networkId = $("select[name='filter_network']").val();
+      var level =   $("select[name='filter_level']").val();
+      var leader =   $("select[name='filter_leader']").val();
+      var inactive =   $("select[name='filter_status']").val();
+      var oldNetworkId = "";
+      var oldLevel = "";
+
+      if ($('select[name="filter_level"]').val() > 2) {
+        if (!leader || networkId!=oldNetworkId || level!=oldLevel) {
+          var html = "<option value=''>All Leaders</option>";
+          oldNetworkId = networkId;
+          oldLevel = level;
+          $.each( leaders, function( key, leader ) {
+            if (networkId) {
+              if (leader.network_id == networkId && leader.level==(parseInt(level)-1)) {
+                html += "<option value='"+leader.id+"' >"+leader.first_name+" "+leader.last_name+"</option>";
+              }
+            }else {
+              if (leader.level==(parseInt(level)-1)) {
+                html += "<option value='"+leader.id+"' >"+leader.first_name+" "+leader.last_name+"</option>";
+              }
+            }
+
+           });
+           $("select[name='filter_leader']").html(html);
+        }
+
+        $('#filterLeaderView').fadeIn()
+
+      }else {
+        $('#filterLeaderView').fadeOut()
+         $("select[name='filter_leader']").val("");
+       }
+
+      $.ajax({
+           url: "{{ route('readMembersWithFilter') }}",
+           type: 'POST',
+           dataType: 'json',
+           data: {
+             'network_id': networkId,
+             'level': level,
+             'leader_id': leader,
+             'inactive': inactive,
+           },
+           encode:true,
+           success:function(data) {
+             $("#loader").hide();
+             console.log(data);
+             var html = "";
+             $.each( data, function( key, member ) {
+               var status="<button onclick='toggleMemberStatusBtn("+member.id+",0)' class='btn btn-success btn-block btn-sm'>Activate</button>";
+                if (!member.inactive) {
+                  status = "<button onclick='toggleMemberStatusBtn("+member.id+",1)' class='btn btn-warning btn-block btn-sm'>Deactivate</button>";
+                }
+                html +=
+                "<tr>" +
+                  "<td><img width='80px' src='{{ asset('dp') }}/"+member.dp_filename+"' /></td>" +
+                  "<td>"+member.first_name+" "+member.last_name+"</td>" +
+                  "<td>"+member.network_leader+"</td>" +
+                  "<td>"+member.leader+"</td>" +
+                  "<td>"+Math.pow(12, member.level)+"</td>" +
+                  "<td>"+(member.inactive?"Inactive":"Active")+"</td>" +
+                  "<td>" +
+                  "<button onclick='viewBtn("+member.id+")' class='btn btn-primary btn-block btn-sm'>View</button>" +
+                  "<button onclick='editBtn("+member.id+")' class='btn btn-info btn-block btn-sm'>Edit</button>" +
+                  status +
+                  "<button onclick='deleteBtn("+member.id+")' class='btn btn-danger btn-block btn-sm'>Delete</button>" +
+                  "</td>" +
+                "</tr>";
+                });
+                dataTable.destroy();
+                $("#tableBody").html(html);
+                dataTable = $('#dataTable').DataTable();
+
+
            }
        });
     });

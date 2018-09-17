@@ -11,6 +11,15 @@ use Carbon\Carbon;
 
 class MemberController extends Controller
 {
+
+  public function showMembersPage(){
+    $data['page_title'] = "Members";
+    $data['page_description'] = "Browse Members";
+    $data['active'] = "membersNav";
+    $data['networks'] = Member::all()->where('level',1);
+    return view("page.members",$data);
+  }
+
   public function create(Request $request){
       $validator = Validator::make($request->all(), [
           'first_name' => 'required',
@@ -74,8 +83,9 @@ class MemberController extends Controller
   }
 
   public function read(){
-    $members = Member::all();
-    foreach ($members as $member) {
+    $data['members'] = Member::all();
+    $data['leaders'] = Member::leaders();
+    foreach ($data['members'] as $member) {
       $member['network_leader'] = "N/A";
       $member['leader'] = "N/A";
       if ($member->network_id > 0 && $member->level > 1) {
@@ -95,7 +105,7 @@ class MemberController extends Controller
       $member['formatted_birth_date']=date("F d, Y", strtotime($member->birth_date));
       $member['age'] = Carbon::parse($member->birth_date)->age;
     }
-    return $members;
+    return $data;
   }
 
   public function readWithFilter(Request $request){
@@ -115,6 +125,10 @@ class MemberController extends Controller
 
     if (!empty($request->input('network_id'))) {
       $members = $members->where('network_id',$request->input('network_id'));
+    }
+
+    if (!empty($request->input('inactive'))) {
+      $members = $members->where('inactive',$request->input('inactive'));
     }
 
     foreach ($members as $member) {

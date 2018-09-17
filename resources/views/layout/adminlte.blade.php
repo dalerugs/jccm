@@ -93,7 +93,7 @@
       </a>
     </li>
 		<li id="membersNav" >
-      <a href="#">
+      <a href="{{route('members')}}">
         <i class="fa fa-users"></i> <span>Members</span>
       </a>
     </li>

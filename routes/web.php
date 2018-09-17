@@ -29,3 +29,4 @@ Route::get('admin/manageBatch', 'AdminController@manageBatch')->name("manageBatc
 Route::get('admin/manageFiles', 'AdminController@manageFiles')->name("manageFiles");
 
 Route::get('files', 'FileController@showFilesPage')->name("files");
+Route::get('members', 'MemberController@showMembersPage')->name("members");

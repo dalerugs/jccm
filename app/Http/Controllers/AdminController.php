@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Batch;
+use App\Member;
 
 
 class AdminController extends Controller
@@ -34,6 +35,7 @@ class AdminController extends Controller
     $data['page_description'] = "Browse Members";
     $data['active'] = "adminNav";
     $data['batches'] = Batch::all();
+    $data['networks'] = Member::all()->where('level',1);
     return view("page.manage_members",$data);
   }
 
