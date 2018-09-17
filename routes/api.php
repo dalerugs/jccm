@@ -29,6 +29,12 @@ Route::get('showBatch/{id}', 'BatchController@show')->name("showBatch");
 Route::post('updateBatch', 'BatchController@update')->name("updateBatch");
 Route::get('deleteBatch/{id}', 'BatchController@delete')->name("deleteBatch");
 
+Route::post('createFile', 'FileController@create')->name("createFile");
+Route::get('readFiles', 'FileController@read')->name("readFiles");
+Route::get('showFile/{id}', 'FileController@show')->name("showFile");
+Route::post('updateFile', 'FileController@update')->name("updateFile");
+Route::get('deleteFile/{id}', 'FileController@delete')->name("deleteFile");
+
 Route::post('createMember', 'MemberController@create')->name("createMember");
 Route::get('readMembers', 'MemberController@read')->name("readMembers");
 Route::post('readMembersWithFilter', 'MemberController@readWithFilter')->name("readMembersWithFilter");

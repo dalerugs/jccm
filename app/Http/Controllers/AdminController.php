@@ -44,4 +44,11 @@ class AdminController extends Controller
     return view("page.manage_batch",$data);
   }
 
+  public function manageFiles(){
+    $data['page_title'] = "Manage Files";
+    $data['page_description'] = "Browse Files";
+    $data['active'] = "adminNav";
+    return view("page.manage_files",$data);
+  }
+
 }

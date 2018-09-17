@@ -43,7 +43,7 @@
   <div style="display:none" id="loader" class="overlay">
       <div style="margin-top:15%" class="row">
           <div class="col-md-12">
-              <img width="25%" class="center-block" src="{{asset('img/loader.gif')}}">
+              <img width="400px" class="center-block" src="{{asset('img/loader.gif')}}">
           </div>
       </div>
   </div>

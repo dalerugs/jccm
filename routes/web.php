@@ -26,3 +26,4 @@ Route::get('admin', 'AdminController@index')->name("admin");
 Route::get('admin/manageUsers', 'AdminController@manageUsers')->name("manageUsers");
 Route::get('admin/manageMembers', 'AdminController@manageMembers')->name("manageMembers");
 Route::get('admin/manageBatch', 'AdminController@manageBatch')->name("manageBatch");
+Route::get('admin/manageFiles', 'AdminController@manageFiles')->name("manageFiles");

@@ -18,16 +18,16 @@
     					<a href="{{route('manageMembers')}}"><i class="fa fa-users fa-3x"></i><br />Manage Members</a>
     				</li>
     				<li>
-    					<a href="#"><i class="fa fa-check-square-o fa-3x"></i><br />Manage Requests</a>
+    					<a href="{{route('admin')}}"><i class="fa fa-check-square-o fa-3x"></i><br />Manage Requests</a>
     				</li>
     				<li>
     					<a href="{{route('manageBatch')}}"><i class="fa fa-certificate fa-3x"></i><br />Manage Batch</a>
     				</li>
     				<li>
-    					<a href="#"><i class="fa fa-globe fa-3x"></i><br />Manage G12</a>
+    					<a href="{{route('admin')}}"><i class="fa fa-globe fa-3x"></i><br />Manage G12</a>
     				</li>
     				<li>
-    					<a href="#"><i class="fa fa-files-o fa-3x"></i><br />Manage Files</a>
+    					<a href="{{route('manageFiles')}}"><i class="fa fa-files-o fa-3x"></i><br />Manage Files</a>
     				</li>
     				<li>
     					<a href="{{route('manageUsers')}}"><i class="fa fa-id-card-o fa-3x"></i><br />Manage Users</a>
