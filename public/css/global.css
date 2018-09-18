@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'Open Sans Condensed';
+    src: url(../fonts/OpenSansCondensed-Light.ttf);
+}
+
+@font-face {
+    font-family: 'Abel';
+    src: url(../fonts/Abel-Regular.ttf);
+}
+
 .style-1{
   font-family: 'Open Sans Condensed', sans-serif;
 }
