@@ -65,6 +65,11 @@ class MemberController extends Controller
           $member->network_id = $member->id;
           $member->save();
         }
+
+        $member->leader_code = $this->generateLeaderCode($member);
+        $member->save();
+
+
         Training::create([
             'member'=> $member->id,
             'batch'=> empty($request->input('batch'))?0:$request->input('batch'),
@@ -115,6 +120,10 @@ class MemberController extends Controller
     return $data;
   }
 
+  public function test(){
+    return Member::where('inactive',0)->get();
+  }
+
   public function readWithFilter(Request $request){
     $members = Member::all();
 
@@ -134,7 +143,7 @@ class MemberController extends Controller
       $members = $members->where('network_id',$request->input('network_id'));
     }
 
-    if (!empty($request->input('inactive'))) {
+    if ($request->input('inactive') != "") {
       $members = $members->where('inactive',$request->input('inactive'));
     }
 
@@ -188,6 +197,10 @@ class MemberController extends Controller
   public function update(Request $request)
   {
       $member = Member::findOrFail($request->input('id'));
+      $old_level = $member->level;
+      $old_leader_id = $member->leader_id;
+      $old_network_id = $member->network_id;
+
       $training = Training::where('member', $member->id)->first();
       $validator = Validator::make($request->all(), [
           'first_name' => 'required',
@@ -219,6 +232,33 @@ class MemberController extends Controller
             $member->network_id = $member->id;
             $member->save();
           }
+
+          if ($member->level != $old_level ||
+              $member->leader_id != $old_leader_id ||
+              $member->network_id != $old_network_id) {
+
+                $old_leader_code = $member->leader_code;
+                $member->leader_code = $this->generateLeaderCode($member);
+                $member->save();
+
+                $member_unders = Member::where('leader_code','like',$old_leader_code."-%")->get();
+                foreach ($member_unders as $under) {
+                  if ($member->network_id != $old_network_id) {
+                    $under->network_id = $member->network_id;
+                  }
+
+                  if ($member->level > $old_level) {
+                    $under->level++;
+                  }else if ($member->level < $old_level) {
+                    $under->level--;
+                  }
+
+                  $under->leader_code = $this->generateLeaderCode($under);
+                  $under->save();
+                }
+          }
+
+
           if($request->hasFile('picture')) {
               if ($member->dp_filename != "default.png") {
                 unlink(public_path().'/dp/'.$member->dp_filename);
@@ -229,8 +269,9 @@ class MemberController extends Controller
              $member->dp_filename = $filename;
              $member->save();
           }
+
           $training->update([
-              'batch'=> $request->input('batch'),
+              'batch'=> empty($request->input('batch'))?0:$request->input('batch'),
               'pre_encounter'=> $request->input('pre_encounter'),
               'encounter'=> $request->input('encounter'),
               'post_encounter'=> $request->input('post_encounter'),
@@ -269,5 +310,19 @@ class MemberController extends Controller
       }
       $member->delete();
       return 204;
+  }
+
+  private function generateLeaderCode($member){
+    $leader_code = $member->id;
+    if($member->level > 1){
+      $leader_code = $member->leader_id."-".$member->id;
+      $last_leader_id = $member->leader_id;
+      for ($i=($member->level - 1); $i > 1 ; $i--) {
+        $next_leader = Member::find($last_leader_id);
+        $last_leader_id = $next_leader->leader_id;
+        $leader_code = $last_leader_id."-".$leader_code;
+      }
+    }
+    return $leader_code;
   }
 }

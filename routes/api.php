@@ -37,6 +37,7 @@ Route::get('deleteFile/{id}', 'FileController@delete')->name("deleteFile");
 
 Route::post('createMember', 'MemberController@create')->name("createMember");
 Route::get('readMembers', 'MemberController@read')->name("readMembers");
+Route::get('test', 'MemberController@test')->name("test");
 Route::post('readMembersWithFilter', 'MemberController@readWithFilter')->name("readMembersWithFilter");
 Route::get('showMember/{id}', 'MemberController@show')->name("showMember");
 Route::post('updateMember', 'MemberController@update')->name("updateMember");

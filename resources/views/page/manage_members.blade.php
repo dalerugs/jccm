@@ -384,20 +384,19 @@
        });
     });
 
+    var oldNetworkId = "";
+    var oldLevel = "";
+
     $("#filterForm").on('change', function() {
       $("#loader").show();
       var networkId = $("select[name='filter_network']").val();
       var level =   $("select[name='filter_level']").val();
       var leader =   $("select[name='filter_leader']").val();
       var inactive =   $("select[name='filter_status']").val();
-      var oldNetworkId = "";
-      var oldLevel = "";
+
 
       if ($('select[name="filter_level"]').val() > 2) {
-        if (!leader || networkId!=oldNetworkId || level!=oldLevel) {
           var html = "<option value=''>All Leaders</option>";
-          oldNetworkId = networkId;
-          oldLevel = level;
           $.each( leaders, function( key, leader ) {
             if (networkId) {
               if (leader.network_id == networkId && leader.level==(parseInt(level)-1)) {
@@ -411,13 +410,22 @@
 
            });
            $("select[name='filter_leader']").html(html);
+
+        if (networkId==oldNetworkId && level==oldLevel) {
+           $("select[name='filter_leader']").val(leader);
+        }else {
+            oldNetworkId = networkId;
+            oldLevel = level;
+            $("select[name='filter_leader']").val("");
+            leader = "";
         }
 
         $('#filterLeaderView').fadeIn()
 
       }else {
-        $('#filterLeaderView').fadeOut()
+          $('#filterLeaderView').fadeOut()
          $("select[name='filter_leader']").val("");
+         leader = "";
        }
 
       $.ajax({
