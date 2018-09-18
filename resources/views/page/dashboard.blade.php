@@ -84,22 +84,26 @@
             <div style="padding:10px" class="tab-content">
               <div id="mensNetView" style="height: 100%;" >
                 <div class="container table-responsive">
-                  <table class="table table-bordered">
+                  <table id="mensTable" class="table table-bordered">
                     <thead>
                       <tr>
                         <th>NETWORK</th>
                         @for($i=1;$i<=App\Constants::$MAX_LEVEL-1;$i++)
                         <th>{{pow(12,$i)}}</th>
                         @endfor
+                        <th>TOTAL</th>
                       </tr>
                     </thead>
                     <tbody>
                       @foreach($mens_network as $network)
+                      @php $total = 0; @endphp
                       <tr>
                         <td>{{$network->first_name." ".$network->last_name}}</td>
                         @for($i=2;$i<=App\Constants::$MAX_LEVEL;$i++)
+                        @php $total += $network[$i]; @endphp
                         <td>{{$network[$i]}}</td>
                         @endfor
+                        <td>{{$total}}</td>
                       </tr>
                       @endforeach
                     </tbody>
@@ -109,22 +113,26 @@
 
               <div style="display:none" id="womensNetView" style="position: relative; height: 100%;" >
                 <div class="container table-responsive">
-                  <table class="table table-bordered">
+                  <table id="womensTable" class="table table-bordered">
                     <thead>
                       <tr>
                         <th>NETWORK</th>
                         @for($i=1;$i<=App\Constants::$MAX_LEVEL-1;$i++)
                         <th>{{pow(12,$i)}}</th>
                         @endfor
+                        <th>TOTAL</th>
                       </tr>
                     </thead>
                     <tbody>
                       @foreach($womens_network as $network)
+                      @php $total = 0; @endphp
                       <tr>
                         <td>{{$network->first_name." ".$network->last_name}}</td>
                         @for($i=2;$i<=App\Constants::$MAX_LEVEL;$i++)
+                        @php $total += $network[$i]; @endphp
                         <td>{{$network[$i]}}</td>
                         @endfor
+                        <td>{{$total}}</td>
                       </tr>
                       @endforeach
                     </tbody>
@@ -141,6 +149,25 @@
 
 @section('js')
 <script>
+
+  $( document ).ready(function() {
+    $('#mensTable').DataTable({
+        "searching": false,
+        "bFilter": false,
+        "bInfo": false,
+        "paging": false,
+        "responsive": true,
+    });
+    $('#womensTable').DataTable({
+      "searching": false,
+      "bFilter": false,
+      "bInfo": false,
+      "paging": false,
+      "responsive": true,
+    });
+    dataTableMember = $('#dataTableMember').DataTable();
+  });
+
   function mensTabClick(){
     $("#womensNetView").hide();
     $("#mensNetView").show();
