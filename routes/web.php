@@ -31,3 +31,4 @@ Route::get('admin/manageFiles', 'AdminController@manageFiles')->name("manageFile
 Route::get('files', 'FileController@showFilesPage')->name("files");
 Route::get('members', 'MemberController@showMembersPage')->name("members");
 Route::get('pepsol', 'PepsolReportController@index')->name("pepsol");
+Route::get('myNetwork', 'MyNetworkController@showMyNetworkPage')->name("myNetwork");

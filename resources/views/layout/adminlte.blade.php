@@ -87,8 +87,8 @@
       </a>
     </li>
     @if(Auth::user()->type=="NET_LEAD")
-		<li id="networksNav" >
-      <a href="#">
+		<li id="myNetworkNav" >
+      <a href="{{route('myNetwork')}}">
         <i class="fa fa-sitemap"></i> <span>My Network</span>
       </a>
     </li>
