@@ -100,7 +100,7 @@
       </a>
     </li>
 		<li id="pepsolNav" >
-      <a href="#">
+      <a href="{{route('pepsol')}}">
         <i class="fa fa-line-chart"></i> <span>PEPSOL Report</span>
       </a>
     </li>

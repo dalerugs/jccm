@@ -47,8 +47,6 @@
                   "<td>"+file.description+"</td>" +
                   "<td>" +
                   "<a href='"+filepath+"' download='"+file.name+"' target='_blank' class='btn btn-primary btn-block'>Download</a>" +
-                  "<button onclick='editBtn("+file.id+")' class='btn btn-info btn-block'>Edit</button>" +
-                  "<button onclick='deleteBtn("+file.id+")' class='btn btn-danger btn-block'>Delete</button>" +
                   "</td>" +
                 "</tr>";
                 });

@@ -19,8 +19,10 @@ class DashboardController extends Controller
       $data['page_description'] = "Summary of Data";
       $data['active'] = "dashboardNav";
       $data['leaders'] = count(Member::leaders());
-      $data['active'] = Member::where('inactive',0)->count();
-      $data['inactive'] = Member::where('inactive',1)->count();
+      $data['active_members'] = Member::where('inactive',0)->count();
+      $data['inactive_members'] = Member::where('inactive',1)->count();
+      $pepsol = new PepsolReportController();
+      $data['completion_rate'] = $pepsol->calculatePepsolReport()['total']['total'];
       $data['mens_network'] = $this->calculateNetworkSize('MALE');
       $data['womens_network'] = $this->calculateNetworkSize('FEMALE');
 

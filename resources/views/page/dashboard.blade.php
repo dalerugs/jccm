@@ -11,9 +11,9 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>{{{$active}}}</h3>
+              <h3>{{{$active_members}}}</h3>
 
-              <p>Active Members</p>
+              <p><br />Active Members</p>
             </div>
             <div class="icon">
               <i class="fa fa-check-circle-o"></i>
@@ -26,9 +26,9 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3>{{{$inactive}}}</h3>
+              <h3>{{{$inactive_members}}}</h3>
 
-              <p>Inactive Members</p>
+              <p><br /> Inactive Members</p>
             </div>
             <div class="icon">
               <i class="fa fa-times-circle-o"></i>
@@ -43,7 +43,7 @@
             <div class="inner">
               <h3>{{{$leaders}}}</h3>
 
-              <p>Leaders</p>
+              <p><br /> Leaders</p>
             </div>
             <div class="icon">
               <i class="fa fa-user-secret"></i>
@@ -56,14 +56,14 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>44<sup style="font-size: 20px">%</sup></h3>
+              <h3>{{$completion_rate}}<sup style="font-size: 20px">%</sup></h3>
 
-              <p>PEPSOL Rate</p>
+              <p>PEPSOL <br /> Completion Rate</p>
             </div>
             <div class="icon">
               <i class="fa fa-line-chart"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{route('pepsol')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->

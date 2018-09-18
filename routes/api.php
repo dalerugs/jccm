@@ -43,3 +43,6 @@ Route::get('showMember/{id}', 'MemberController@show')->name("showMember");
 Route::post('updateMember', 'MemberController@update')->name("updateMember");
 Route::get('toggleMemberStatus/{id}/{inactive}', 'MemberController@updateStatus')->name("toggleMemberStatus");
 Route::get('deleteMember/{id}', 'MemberController@delete')->name("deleteMember");
+
+
+Route::get('pepsolReport/{id}', 'PepsolReportController@calculateNetworkPepsolReport')->name("pepsolReport");

@@ -11,8 +11,12 @@ class Member extends Model
       'network_id', 'leader_id', 'dp_filename',
   ];
 
-  public static function leaders(){
-    $members = Member::orderBy('first_name')->get();
+  public static function leaders($network = null){
+    if (isset($network)) {
+      $members = Member::where('network_id',$network)->orderBy('first_name')->get();
+    }else {
+      $members = Member::orderBy('first_name')->get();
+    }
     $leaders = array();
     foreach ($members as $member) {
       if (Member::where('leader_id',$member->id)->first() != null) {
