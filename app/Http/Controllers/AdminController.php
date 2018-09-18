@@ -33,7 +33,7 @@ class AdminController extends Controller
     $data['page_title'] = "Manage Users";
     $data['page_description'] = "Browse Users";
     $data['active'] = "adminNav";
-    $data['networks'] = Member::all()->where('level',1);
+    $data['networks'] = Member::where('level',1)->orderBy('first_name')->get();
     $data['profile_picture'] = "default.png";
     if (Auth::user()->type=="NET_LEAD") {
       $member = Member::find(Auth::user()->network);
@@ -46,8 +46,8 @@ class AdminController extends Controller
     $data['page_title'] = "Manage Members";
     $data['page_description'] = "Browse Members";
     $data['active'] = "adminNav";
-    $data['batches'] = Batch::all();
-    $data['networks'] = Member::all()->where('level',1);
+    $data['batches'] = Batch::orderBy('no')->get();
+    $data['networks'] = Member::where('level',1)->orderBy('first_name')->get();
     $data['profile_picture'] = "default.png";
     if (Auth::user()->type=="NET_LEAD") {
       $member = Member::find(Auth::user()->network);

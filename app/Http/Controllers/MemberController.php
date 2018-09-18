@@ -18,7 +18,7 @@ class MemberController extends Controller
     $data['page_title'] = "Members";
     $data['page_description'] = "Browse Members";
     $data['active'] = "membersNav";
-    $data['networks'] = Member::all()->where('level',1);
+    $data['networks'] = Member::where('level',1)->orderBy('first_name')->get();
     $data['profile_picture'] = "default.png";
     if (Auth::user()->type=="NET_LEAD") {
       $member = Member::find(Auth::user()->network);
@@ -95,7 +95,7 @@ class MemberController extends Controller
   }
 
   public function read(){
-    $data['members'] = Member::all();
+    $data['members'] = Member::orderBy('first_name')->get();
     $data['leaders'] = Member::leaders();
     foreach ($data['members'] as $member) {
       $member['network_leader'] = "N/A";
@@ -121,11 +121,11 @@ class MemberController extends Controller
   }
 
   public function test(){
-    return Member::where('inactive',0)->get();
+    return Member::orderBy('first_name')->get();
   }
 
   public function readWithFilter(Request $request){
-    $members = Member::all();
+    $members = Member::orderBy('first_name')->get();
 
     if (!empty($request->input('sex'))) {
       $members = $members->where('sex',$request->input('sex'));

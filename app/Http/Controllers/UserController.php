@@ -39,7 +39,7 @@ class UserController extends Controller
     }
 
     public function read(){
-      return User::all();
+      return User::orderBy('first_name')->get();
     }
 
     public function show($id)

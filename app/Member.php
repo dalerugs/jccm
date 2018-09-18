@@ -12,7 +12,7 @@ class Member extends Model
   ];
 
   public static function leaders(){
-    $members = Member::all();
+    $members = Member::orderBy('first_name')->get();
     $leaders = array();
     foreach ($members as $member) {
       if (Member::where('leader_id',$member->id)->first() != null) {

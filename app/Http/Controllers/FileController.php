@@ -53,7 +53,7 @@ class FileController extends Controller
   }
 
   public function read(){
-    return File::all();
+    return File::orderBy('name')->get();
   }
 
   public function show($id)
