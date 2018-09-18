@@ -29,7 +29,7 @@
             <label>Filter By Level:</label>
             <select name="filter_level" style="margin-bottom:20px" class="form-control">
               <option value="" >All Levels</option>
-              @for($i=1;$i<=5;$i++)
+              @for($i=1;$i<=App\Constants::$MAX_LEVEL;$i++)
               <option value="{{$i}}">{{pow(12,$i)}}</option>
               @endfor
             </select>
