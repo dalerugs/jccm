@@ -6,6 +6,7 @@
 
 @section('content')
 
+
 <div class="row">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
@@ -83,7 +84,7 @@
             </ul>
             <div style="padding:10px" class="tab-content">
               <div id="mensNetView" style="height: 100%;" >
-                <div class="container table-responsive">
+                <div class="table-responsive">
                   <table id="mensTable" class="table table-bordered">
                     <thead>
                       <tr>
@@ -112,7 +113,7 @@
               </div>
 
               <div style="display:none" id="womensNetView" style="position: relative; height: 100%;" >
-                <div class="container table-responsive">
+                <div class="table-responsive">
                   <table id="womensTable" class="table table-bordered">
                     <thead>
                       <tr>
