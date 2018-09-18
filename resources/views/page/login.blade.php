@@ -41,6 +41,17 @@
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-1 col-md-offset-11 hidden-xs">
+      <div id="footer" class="style-2 white subtitle">
+        {{getHostByName(getHostName())}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid" >
+
 </div>
 
 @endsection

@@ -12,6 +12,7 @@
     <link rel="shortcut icon" href="{{ asset('img/fav1.jpg') }}" type="image/x-icon"/>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/global.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     @yield('css')
 </head>
 
