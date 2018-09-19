@@ -125,6 +125,8 @@ class MemberController extends Controller
   }
 
   public function readWithFilter(Request $request){
+    $data['members_all'] = Member::orderBy('first_name')->get();
+    $data['leaders'] = Member::leaders($request->input('networkId'));
     $members = Member::orderBy('first_name')->get();
 
     if (!empty($request->input('sex'))) {
@@ -167,7 +169,8 @@ class MemberController extends Controller
       $member['formatted_birth_date']=date("F d, Y", strtotime($member->birth_date));
       $member['age'] = Carbon::parse($member->birth_date)->age;
     }
-    return $members;
+    $data['members'] = $members;
+    return $data;
   }
 
   public function show($id)

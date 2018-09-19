@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Member;
+use App\Batch;
 
 class MyNetworkController extends Controller
 {
@@ -14,15 +15,34 @@ class MyNetworkController extends Controller
       $this->middleware('role:NET_LEAD');
   }
 
-  public function showMyNetworkPage(){
+  public function showMyNetworkMenu(){
     $data['page_title'] = "My Network";
-    $data['page_description'] = "Manage My Network";
+    $data['page_description'] = "View My Network Menu";
     $data['active'] = "myNetworkNav";
-    $data['profile_picture'] = "default.png";
-    if (Auth::user()->type=="NET_LEAD") {
-      $member = Member::find(Auth::user()->network);
-      $data['profile_picture'] = $member->dp_filename;
-    }
+    $data['user'] = Member::find(Auth::user()->network);
+    $data['profile_picture'] = $data['user']->dp_filename;
     return view("page.my_network",$data);
+  }
+
+  public function manageMembers(){
+    $data['page_title'] = "Manage Members";
+    $data['page_description'] = "Browse My Members";
+    $data['active'] = "myNetworkNav";
+    $data['batches'] = Batch::orderBy('no')->get();
+    $data['networks'] = Member::where('level',1)->orderBy('first_name')->get();
+    $data['user'] = Member::find(Auth::user()->network);
+    $data['profile_picture'] = $data['user']->dp_filename;
+    return view("page.manage_members_network",$data);
+  }
+
+  public function manageRequests(){
+    $data['page_title'] = "Manage Requests";
+    $data['page_description'] = "Browse My Requests";
+    $data['active'] = "myNetworkNav";
+    $data['batches'] = Batch::orderBy('no')->get();
+    $data['networks'] = Member::where('level',1)->orderBy('first_name')->get();
+    $data['user'] = Member::find(Auth::user()->network);
+    $data['profile_picture'] = $data['user']->dp_filename;
+    return view("page.manage_requests_network",$data);
   }
 }

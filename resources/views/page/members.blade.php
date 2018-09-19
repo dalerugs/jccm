@@ -274,7 +274,7 @@
              $("#loader").hide();
              console.log(data);
              var html = "";
-             $.each( data, function( key, member ) {
+             $.each( data.members, function( key, member ) {
                 html +=
                 "<tr>" +
                   "<td><img width='80px' src='{{ asset('dp') }}/"+member.dp_filename+"' /></td>" +

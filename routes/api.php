@@ -44,5 +44,12 @@ Route::post('updateMember', 'MemberController@update')->name("updateMember");
 Route::get('toggleMemberStatus/{id}/{inactive}', 'MemberController@updateStatus')->name("toggleMemberStatus");
 Route::get('deleteMember/{id}', 'MemberController@delete')->name("deleteMember");
 
+Route::post('createRequest', 'MemberRequestController@create')->name("createRequest");
+Route::get('readRequests', 'MemberRequestController@read')->name("readRequests");
+Route::post('readRequestsWithFilter', 'MemberRequestController@readWithFilter')->name("readRequestsWithFilter");
+Route::get('showRequest/{id}', 'MemberRequestController@show')->name("showRequest");
+Route::get('approvedRequest/{id}', 'MemberRequestController@approvedRequest')->name("approvedRequest");
+Route::get('deleteRequest/{id}', 'MemberController@delete')->name("deleteRequest");
+
 
 Route::get('pepsolReport/{id}', 'PepsolReportController@calculateNetworkPepsolReport')->name("pepsolReport");

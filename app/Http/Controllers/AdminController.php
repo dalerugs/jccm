@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Batch;
 use App\Member;
-use Illuminate\Support\Facades\Event;
 
 
 class AdminController extends Controller
