@@ -79,4 +79,17 @@ class AdminController extends Controller
     return view("page.manage_files",$data);
   }
 
+  public function manageRequests(){
+    $data['page_title'] = "Manage Requests";
+    $data['page_description'] = "Browse Requests";
+    $data['active'] = "adminNav";
+    $data['networks'] = Member::where('level',1)->orderBy('first_name')->get();
+    $data['profile_picture'] = "default.png";
+    if (Auth::user()->type=="NET_LEAD") {
+      $member = Member::find(Auth::user()->network);
+      $data['profile_picture'] = $member->dp_filename;
+    }
+    return view("page.manage_requests",$data);
+  }
+
 }

@@ -68,7 +68,7 @@
             <th>LEADER</th>
             <th>LEVEL</th>
             <th>STATUS</th>
-            <th>ACTION</th>
+            <th width='5%'></th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -588,7 +588,7 @@
              if (data.success) {
                swal({
                  title: "Success!",
-                 text: "Data was succesfully saved.",
+                 text: "Member was succesfully saved.",
                  type:
                  "success"
                }).then(function(){
@@ -658,7 +658,7 @@
              if (data.success) {
                swal({
                  title: "Success!",
-                 text: "Data was succesfully saved.",
+                 text: "Member was succesfully saved.",
                  type:
                  "success"
                }).then(function(){
@@ -702,7 +702,7 @@
                  $("#loader").hide();
                  swalWithBootstrapButtons(
                    (status?"Deactivated":"Activated"),
-                   'Data has been deleted.',
+                   'Member was succesfully '+(status?"deactivated":"activated")+'.',
                    'success'
                  ).then(function(){
                     location.reload();
@@ -747,7 +747,7 @@
                  $("#loader").hide();
                  swalWithBootstrapButtons(
                    'Deleted!',
-                   'Data has been deleted.',
+                   'Member was succesfully deleted.',
                    'success'
                  ).then(function(){
                     location.reload();

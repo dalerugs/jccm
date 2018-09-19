@@ -27,6 +27,7 @@ Route::get('admin/manageUsers', 'AdminController@manageUsers')->name("manageUser
 Route::get('admin/manageMembers', 'AdminController@manageMembers')->name("manageMembers");
 Route::get('admin/manageBatch', 'AdminController@manageBatch')->name("manageBatch");
 Route::get('admin/manageFiles', 'AdminController@manageFiles')->name("manageFiles");
+Route::get('admin/manageRequests', 'AdminController@manageRequests')->name("manageRequests");
 
 Route::get('files', 'FileController@showFilesPage')->name("files");
 Route::get('members', 'MemberController@showMembersPage')->name("members");

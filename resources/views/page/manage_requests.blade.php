@@ -8,11 +8,22 @@
 
 <div class="box box-default">
   <div class="box-header with-border">
-    <h3 class="box-title">Members Data</h3>
+    <h3 class="box-title">Requests Data</h3>
   </div>
   <div class="box-body">
     <div class="row">
       <form id="filterForm">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Filter By Action:</label>
+            <select name="filter_action" style="margin-bottom:20px" class="form-control">
+              <option value="" >All Actions</option>
+              <option value="CREATE" >New Member</option>
+              <option value="UPDATE" >Update Member</option>=
+              <option value="DELETE" >Delete Member</option>=
+            </select>
+          </div>
+        </div>
         <div class="col-md-3">
           <div class="form-group">
             <label>Filter By Network:</label>
@@ -29,28 +40,17 @@
             <label>Filter By Level:</label>
             <select name="filter_level" style="margin-bottom:20px" class="form-control">
               <option value="" >All Levels</option>
-              @for($i=1;$i<=App\Constants::$MAX_LEVEL;$i++)
+              @for($i=2;$i<=App\Constants::$MAX_LEVEL;$i++)
               <option value="{{$i}}">{{pow(12,$i)}}</option>
               @endfor
             </select>
           </div>
-
         </div>
-        <div id='filterLeaderView' style="display:none" class="col-md-3">
-          <div class="form-group">
+        <div class="col-md-3">
+          <div id='filterLeaderView' style="display:none" class="form-group">
             <label>Filter By Leader:</label>
             <select name="filter_leader" style="margin-bottom:20px" class="form-control">
               <option value="" >All Leaders</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label>Filter By Status:</label>
-            <select name="filter_status" style="margin-bottom:20px" class="form-control">
-              <option value="" >All Status</option>
-              <option value="0" >Active</option>
-              <option value="1" >Inactive</option>
             </select>
           </div>
         </div>
@@ -62,10 +62,9 @@
           <tr>
             <th></th>
             <th>NAME</th>
-            <th>NETWORK</th>
             <th>LEADER</th>
             <th>LEVEL</th>
-            <th>STATUS</th>
+            <th>ACTION</th>
             <th width='5%'></th>
           </tr>
         </thead>
@@ -77,7 +76,6 @@
 
 <div id="viewModal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg">
-
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
@@ -185,48 +183,66 @@
 
 <script>
 
-    var members = [];
+    var leaders = [];
     var dataTable;
 
     $( document ).ready(function() {
       $("#loader").show();
       $.ajax({
-           url: "{{ route('readMembers') }}",
-           success:function(data) {
-             $("#loader").hide();
+            url: "{{ route('readMembersWithFilter') }}",
+            type: 'POST',
+            dataType: 'json',
+            data: {
+            },
+            encode:true,
+            success:function(data) {
              leaders = data.leaders;
-             var html = "";
-             $.each( data.members, function( key, member ) {
-                html +=
-                "<tr>" +
-                  "<td><img width='80px' src='{{ asset('dp') }}/"+member.dp_filename+"' /></td>" +
-                  "<td>"+member.first_name+" "+member.last_name+"</td>" +
-                  "<td>"+member.network_leader+"</td>" +
-                  "<td>"+member.leader+"</td>" +
-                  "<td>"+Math.pow(12, member.level)+"</td>" +
-                  "<td>"+(member.inactive?"Inactive":"Active")+"</td>" +
-                  "<td>" +
-                  "<button onclick='viewBtn("+member.id+")' class='btn btn-primary btn-block btn-sm'>View</button>" +
-                  "</td>" +
-                "</tr>";
-                });
-                $("#tableBody").html(html);
-                dataTable = $('#dataTable').DataTable();
            }
        });
+       $.ajax({
+             url: "{{ route('readRequestsWithFilter') }}",
+             type: 'POST',
+             dataType: 'json',
+             data: {
+             },
+             encode:true,
+             success:function(data) {
+              $("#loader").hide();
+              var html = "";
+              $.each( data.members, function( key, member ) {
+                if(member.level>1){
+                   html +=
+                   "<tr>" +
+                     "<td><img width='80px' src='{{ asset('dp') }}/"+member.dp_filename+"' /></td>" +
+                     "<td>"+member.first_name+" "+member.last_name+"</td>" +
+                     "<td>"+member.leader+"</td>" +
+                     "<td>"+Math.pow(12, member.level)+"</td>" +
+                     "<td>"+(member.action=="CREATE"?"NEW MEMBER":member.action+" MEMBER")+"</td>" +
+                     "<td>" +
+                     "<button onclick='viewBtn("+member.id+")' class='btn btn-primary btn-block btn-sm'>View</button>" +
+                     "<button onclick='approveBtn("+member.id+")' class='btn btn-success btn-block btn-sm'>Approve</button>" +
+                     "<button onclick='rejectBtn("+member.id+")' class='btn btn-danger btn-block btn-sm'>Reject</button>" +
+                     "</td>" +
+                   "</tr>";
+                }
+               });
+               $("#tableBody").html(html);
+               dataTable = $('#dataTable').DataTable();
+            }
+        });
     });
-
 
     var oldNetworkId = "";
     var oldLevel = "";
 
-
     $("#filterForm").on('change', function() {
       $("#loader").show();
-      var networkId = $("select[name='filter_network']").val();
       var level =   $("select[name='filter_level']").val();
       var leader =   $("select[name='filter_leader']").val();
-      var inactive =   $("select[name='filter_status']").val();
+      var action =   $("select[name='filter_action']").val();
+      var networkId =   $("select[name='filter_network']").val();
+
+
       if ($('select[name="filter_level"]').val() > 2) {
           var html = "<option value=''>All Leaders</option>";
           $.each( leaders, function( key, leader ) {
@@ -243,64 +259,63 @@
            });
            $("select[name='filter_leader']").html(html);
 
-           if (networkId==oldNetworkId && level==oldLevel) {
-              $("select[name='filter_leader']").val(leader);
-           }else {
-               oldNetworkId = networkId;
-               oldLevel = level;
-               $("select[name='filter_leader']").val("");
-               leader = "";
-           }
+        if (networkId==oldNetworkId && level==oldLevel) {
+           $("select[name='filter_leader']").val(leader);
+        }else {
+            oldNetworkId = networkId;
+            oldLevel = level;
+            $("select[name='filter_leader']").val("");
+            leader = "";
+        }
+
         $('#filterLeaderView').fadeIn()
 
       }else {
-        $('#filterLeaderView').fadeOut()
+          $('#filterLeaderView').fadeOut()
          $("select[name='filter_leader']").val("");
          leader = "";
        }
 
-      $.ajax({
-           url: "{{ route('readMembersWithFilter') }}",
-           type: 'POST',
-           dataType: 'json',
-           data: {
-             'network_id': networkId,
-             'level': level,
-             'leader_id': leader,
-             'inactive': inactive,
-           },
-           encode:true,
-           success:function(data) {
-             $("#loader").hide();
-             console.log(data);
-             var html = "";
-             $.each( data.members, function( key, member ) {
-                html +=
-                "<tr>" +
-                  "<td><img width='80px' src='{{ asset('dp') }}/"+member.dp_filename+"' /></td>" +
-                  "<td>"+member.first_name+" "+member.last_name+"</td>" +
-                  "<td>"+member.network_leader+"</td>" +
-                  "<td>"+member.leader+"</td>" +
-                  "<td>"+Math.pow(12, member.level)+"</td>" +
-                  "<td>"+(member.inactive?"Inactive":"Active")+"</td>" +
-                  "<td>" +
-                  "<button onclick='viewBtn("+member.id+")' class='btn btn-primary btn-block btn-sm'>View</button>" +
-                  "</td>" +
-                "</tr>";
-                });
-                dataTable.destroy();
-                $("#tableBody").html(html);
-                dataTable = $('#dataTable').DataTable();
-
-
-           }
-       });
+       $.ajax({
+             url: "{{ route('readRequestsWithFilter') }}",
+             type: 'POST',
+             dataType: 'json',
+             data: {
+               'network_id': networkId,
+               'level': level,
+               'leader_id': leader,
+               'action': action,
+             },
+             encode:true,
+             success:function(data) {
+              $("#loader").hide();
+              var html = "";
+              $.each( data.members, function( key, member ) {
+                if(member.level>1){
+                   html +=
+                   "<tr>" +
+                     "<td><img width='80px' src='{{ asset('dp') }}/"+member.dp_filename+"' /></td>" +
+                     "<td>"+member.first_name+" "+member.last_name+"</td>" +
+                     "<td>"+member.leader+"</td>" +
+                     "<td>"+Math.pow(12, member.level)+"</td>" +
+                     "<td>"+(member.action=="CREATE"?"NEW MEMBER":member.action+" MEMBER")+"</td>" +
+                     "<td>" +
+                     "<button onclick='viewBtn("+member.id+")' class='btn btn-primary btn-block btn-sm'>View</button>" +
+                     "<button onclick='deleteBtn("+member.id+","+'"'+"DELETE"+'"'+")' class='btn btn-danger btn-block btn-sm'>Delete</button>" +
+                     "</td>" +
+                   "</tr>";
+                }
+               });
+               $("#tableBody").html(html);
+               dataTable = $('#dataTable').DataTable();
+            }
+        });
     });
 
     function viewBtn(id){
       $("#loader").show();
       $.ajax({
-           url: "{{ url('api/showMember') }}/"+id,
+           url: "{{ url('api/showRequest') }}/"+id,
            success:function(member) {
              console.log(member);
              $('#dp').attr('src',"{{ asset('dp') }}/"+member.dp_filename);
@@ -327,6 +342,97 @@
        });
     }
 
+    function approveBtn(id){
+      const swalWithBootstrapButtons = swal.mixin({
+        confirmButtonClass: 'btn btn-success margin-10',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+      });
+
+      swalWithBootstrapButtons({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this action!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, approve it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+          $("#loader").show();
+          $.ajax({
+               url: "{{ url('api/approveRequest') }}/"+id,
+               success:function(data) {
+                 $("#loader").hide();
+                 swalWithBootstrapButtons(
+                   'Aprooved!',
+                   'Request was sucessfully approved.',
+                   'success'
+                 ).then(function(){
+                    location.reload();
+                    }
+                 );
+               }
+           });
+        } else if (
+          // Read more about handling dismissals
+          result.dismiss === swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons(
+            'Cancelled',
+            '',
+            'error'
+          );
+        }
+      });
+    }
+
+
+
+    function rejectBtn(id){
+      const swalWithBootstrapButtons = swal.mixin({
+        confirmButtonClass: 'btn btn-success margin-10',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+      });
+
+      swalWithBootstrapButtons({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this action!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, reject it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+          $("#loader").show();
+          $.ajax({
+               url: "{{ url('api/deleteRequest') }}/"+id,
+               success:function(data) {
+                 $("#loader").hide();
+                 swalWithBootstrapButtons(
+                   'Rejected!',
+                   'Request was sucesfully rejected.',
+                   'success'
+                 ).then(function(){
+                    location.reload();
+                    }
+                 );
+               }
+           });
+        } else if (
+          // Read more about handling dismissals
+          result.dismiss === swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons(
+            'Cancelled',
+            '',
+            'error'
+          );
+        }
+      });
+    }
 
 </script>
 

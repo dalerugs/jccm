@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Member;
 use App\Training;
+use App\Batch;
+use Carbon\Carbon;
 use App\MemberRequest;
 use App\TrainingRequest;
 use Validator;
@@ -22,8 +24,21 @@ class MemberRequestController extends Controller
           'level' => 'required',
       ]);
       if ($validator->passes()) {
-        if($request->input('id') && !(MemberRequest::where('member',$request->input('id'))->first())){
-          $filename = "default.png";
+        $inactive = 0;
+        $filename = "default.png";
+        if ($request->input('action')=="UPDATE" || $request->input('action')=="DELETE") {
+          if($request->input('id') && (MemberRequest::where('member',$request->input('id'))->first())){
+            return response()->json([
+                'success'=> false,
+                'duplicate'=> true,
+                'errors'=>['Duplicate']
+            ]);
+          }else {
+            $old_member = Member::find($request->input('id'));
+            $inactive = $old_member->inactive;
+            $filename = $old_member->dp_filename;
+          }
+        }
           if($request->hasFile('picture')) {
              $file = $request->file('picture');
              $filename = str_random(60).'.'.$file->getClientOriginalExtension();
@@ -36,8 +51,10 @@ class MemberRequestController extends Controller
           }else {
             $leader_id = 0;
           }
+
           $member = MemberRequest::create([
-              'member' => $request->input('id'),
+              'member' => empty($request->input('id'))?0:$request->input('id'),
+              'inactive' => $inactive,
               'first_name' => $request->input('first_name'),
               'last_name' => $request->input('last_name'),
               'birth_date' => $request->input('birth_date'),
@@ -72,14 +89,7 @@ class MemberRequestController extends Controller
           return response()->json([
             'success'=> true,
           ]);
-        }
-        else {
-          return response()->json([
-                'success'=> false,
-                'duplicate'=> true,
-                'errors'=>['Duplicate']
-                ]);
-        }
+
       }
       else {
         return response()->json([
@@ -156,7 +166,7 @@ class MemberRequestController extends Controller
       }
       $member['training'] = TrainingRequest::where('member', $member->id)->first();
       $member['batch_name'] = "N/A";
-      if ($member['training']->batch) {
+      if ($member['training']['batch']) {
         $batch = Batch::where('id', $member['training']->batch)->first();
         $member['batch_name'] = $batch['no']." - ".$batch['name'];
       }
@@ -191,22 +201,120 @@ class MemberRequestController extends Controller
       return $member;
   }
 
-  public function approvedRequest($id){
-    $member = Member ::findOrFail($id);
-    $member->approved=1;
-    $member->save();
+  public function approveRequest($id){
+    $member_request = MemberRequest ::findOrFail($id);
+    $training_request = TrainingRequest::where('member', $member_request->id)->first();
+    switch ($member_request->action) {
+      case 'CREATE':
+        $member = Member::create([
+            'first_name' => $member_request->first_name,
+            'last_name' => $member_request->last_name,
+            'birth_date' => $member_request->birth_date,
+            'sex' => $member_request->sex,
+            'address' => $member_request->address,
+            'level' => $member_request->level,
+            'network_id' => $member_request->network_id,
+            'leader_id' => $member_request->leader_id,
+            'dp_filename' => $member_request->dp_filename,
+        ]);
+        Training::create([
+            'member'=> $member->id,
+            'batch'=> $training_request->batch,
+            'pre_encounter'=> $training_request->pre_encounter,
+            'encounter'=> $training_request->encounter,
+            'post_encounter'=> $training_request->post_encounter,
+            'sol1'=> $training_request->sol1,
+            'sol2'=> $training_request->sol2,
+            're_encounter'=> $training_request->re_encounter,
+            'sol3' => $training_request->sol3,
+            'baptism' => $training_request->baptism,
+        ]);
+        break;
+
+      case 'UPDATE':
+        $member = Member::findOrFail($member_request->member);
+        $old_level = $member->level;
+        $old_leader_id = $member->leader_id;
+        $old_network_id = $member->network_id;
+        $training = Training::where('member', $member->id)->first();
+        if ($member_request->dp_filename != "default.png" && $member_request->dp_filename != $member->dp_filename ) {
+          unlink(public_path().'/dp/'.$member->dp_filename);
+        }
+        $member->update([
+            'first_name' => $member_request->first_name,
+            'last_name' => $member_request->last_name,
+            'birth_date' => $member_request->birth_date,
+            'sex' => $member_request->sex,
+            'address' => $member_request->address,
+            'level' => $member_request->level,
+            'network_id' => $member_request->network_id,
+            'dp_filename' => $member_request->dp_filename,
+            'dp_filename' => $member_request->dp_filename,
+        ]);
+
+        if ($member->level != $old_level ||
+            $member->leader_id != $old_leader_id ||
+            $member->network_id != $old_network_id) {
+
+              $old_leader_code = $member->leader_code;
+              $member->leader_code = $this->generateLeaderCode($member);
+              $member->save();
+
+              $member_unders = Member::where('leader_code','like',$old_leader_code."-%")->get();
+              foreach ($member_unders as $under) {
+                if ($member->network_id != $old_network_id) {
+                  $under->network_id = $member->network_id;
+                }
+
+                if ($member->level > $old_level) {
+                  $under->level++;
+                }else if ($member->level < $old_level) {
+                  $under->level--;
+                }
+
+                $under->leader_code = $this->generateLeaderCode($under);
+                $under->save();
+              }
+        }
+
+        $training->update([
+            'member'=> $member->id,
+            'batch'=> $training_request->batch,
+            'pre_encounter'=> $training_request->pre_encounter,
+            'encounter'=> $training_request->encounter,
+            'post_encounter'=> $training_request->post_encounter,
+            'sol1'=> $training_request->sol1,
+            'sol2'=> $training_request->sol2,
+            're_encounter'=> $training_request->re_encounter,
+            'sol3' => $training_request->sol3,
+            'baptism' => $training_request->baptism,
+        ]);
+        break;
+
+      case 'DELETE':
+        $member = Member::findOrFail($member_request->member);
+        $training = Training::where('member', $member->id)->first();
+        $training->delete();
+        if ($member_request->dp_filename != "default.png" && $member_request->dp_filename != $member->dp_filename ) {
+          unlink(public_path().'/dp/'.$member->dp_filename);
+        }
+        $member->delete();
+        break;
+
+      default:
+        break;
+    }
+    $member_request->delete();
+    $training_request->delete();
     return 204;
   }
 
   public function delete($id)
   {
-      $member = Member ::findOrFail($id);
-      $training = Training::where('member', $member->id)->first();
-      $training->delete();
-      if ($member->dp_filename != "default.png") {
-        unlink(public_path().'/dp/'.$member->dp_filename);
-      }
+      $member = MemberRequest::findOrFail($id);
+      $training = TrainingRequest::where('member', $member->id)->first();
       $member->delete();
+      $training->delete();
       return 204;
   }
 

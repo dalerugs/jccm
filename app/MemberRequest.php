@@ -13,6 +13,6 @@ class MemberRequest extends Model
 
   protected $fillable = [
       'first_name','last_name', 'sex','birth_date','address', 'level',
-      'network_id', 'leader_id', 'dp_filename', 'action', 'member'
+      'network_id', 'leader_id', 'dp_filename', 'action', 'member', 'inactive',
   ];
 }

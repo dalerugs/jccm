@@ -48,8 +48,8 @@ Route::post('createRequest', 'MemberRequestController@create')->name("createRequ
 Route::get('readRequests', 'MemberRequestController@read')->name("readRequests");
 Route::post('readRequestsWithFilter', 'MemberRequestController@readWithFilter')->name("readRequestsWithFilter");
 Route::get('showRequest/{id}', 'MemberRequestController@show')->name("showRequest");
-Route::get('approvedRequest/{id}', 'MemberRequestController@approvedRequest')->name("approvedRequest");
-Route::get('deleteRequest/{id}', 'MemberController@delete')->name("deleteRequest");
+Route::get('approveRequest/{id}', 'MemberRequestController@approveRequest')->name("approveRequest");
+Route::get('deleteRequest/{id}', 'MemberRequestController@delete')->name("deleteRequest");
 
 
 Route::get('pepsolReport/{id}', 'PepsolReportController@calculateNetworkPepsolReport')->name("pepsolReport");

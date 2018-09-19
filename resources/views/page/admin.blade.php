@@ -18,7 +18,7 @@
     					<a href="{{route('manageMembers')}}"><i class="fa fa-users fa-3x"></i><br />Manage Members</a>
     				</li>
     				<li>
-    					<a href="{{route('admin')}}"><i class="fa fa-check-square-o fa-3x"></i><br />Manage Requests</a>
+    					<a href="{{route('manageRequests')}}"><i class="fa fa-check-square-o fa-3x"></i><br />Manage Requests</a>
     				</li>
     				<li>
     					<a href="{{route('manageBatch')}}"><i class="fa fa-certificate fa-3x"></i><br />Manage Batch</a>

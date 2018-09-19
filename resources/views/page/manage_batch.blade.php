@@ -21,7 +21,7 @@
             <th>NO</th>
             <th>NAME</th>
             <th>DESCRIPTION</th>
-            <th width="5%">ACTION</th>
+            <th width="5%"></th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>

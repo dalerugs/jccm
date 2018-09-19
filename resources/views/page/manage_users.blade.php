@@ -22,7 +22,7 @@
             <th>LAST NAME</th>
             <th>USERNAME</th>
             <th>TYPE</th>
-            <th width="5%">ACTION</th>
+            <th width="5%"></th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>

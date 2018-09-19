@@ -58,7 +58,7 @@
             <th>LEADER</th>
             <th>LEVEL</th>
             <th>STATUS</th>
-            <th>ACTION</th>
+            <th width='5%'></th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -594,6 +594,7 @@
                    html += "• "+value+"<br />";
                });
                $("#errorMsg").html(html);
+               $('#formModal').animate({ scrollTop: 0 }, 'slow');
                $("#errorMsg").fadeIn().delay(3000).fadeOut();
              }
            }
@@ -737,7 +738,7 @@
                  $("#loader").hide();
                  swalWithBootstrapButtons(
                    (status?"Deactivated":"Activated"),
-                   'Data has been deleted.',
+                   'Member was succesfully '+(status?"deactivated":"activated")+'.',
                    'success'
                  ).then(function(){
                     location.reload();
@@ -746,52 +747,6 @@
                }
            });
         } else if (
-          result.dismiss === swal.DismissReason.cancel
-        ) {
-          swalWithBootstrapButtons(
-            'Cancelled',
-            '',
-            'error'
-          );
-        }
-      });
-    }
-
-    function deleteBtn(id){
-      $('input[name="action"]').val("DELETE");
-      const swalWithBootstrapButtons = swal.mixin({
-        confirmButtonClass: 'btn btn-success margin-10',
-        cancelButtonClass: 'btn btn-danger',
-        buttonsStyling: false,
-      });
-
-      swalWithBootstrapButtons({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this action!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
-        reverseButtons: true
-      }).then((result) => {
-        if (result.value) {
-          $("#loader").show();
-          $.ajax({
-               url: "{{ url('api/deleteMember') }}/"+id,
-               success:function(data) {
-                 $("#loader").hide();
-                 swalWithBootstrapButtons(
-                   'Deleted!',
-                   'Data has been deleted.',
-                   'success'
-                 ).then(function(){
-                    location.reload();
-                    }
-                 );
-               }
-           });
-        } else if (
-          // Read more about handling dismissals
           result.dismiss === swal.DismissReason.cancel
         ) {
           swalWithBootstrapButtons(
