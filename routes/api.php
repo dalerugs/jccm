@@ -50,6 +50,7 @@ Route::post('readRequestsWithFilter', 'MemberRequestController@readWithFilter')-
 Route::get('showRequest/{id}', 'MemberRequestController@show')->name("showRequest");
 Route::get('approveRequest/{id}', 'MemberRequestController@approveRequest')->name("approveRequest");
 Route::get('deleteRequest/{id}', 'MemberRequestController@delete')->name("deleteRequest");
+Route::get('countRequests', 'MemberRequestController@count')->name("countRequests");
 
 
 Route::get('pepsolReport/{id}', 'PepsolReportController@calculateNetworkPepsolReport')->name("pepsolReport");

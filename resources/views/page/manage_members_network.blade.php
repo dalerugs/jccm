@@ -135,8 +135,9 @@
             </div>
             <div class="form-group">
                 <label>Picture</label>
-                <input class="form-control" accept="image/*" type="file" name="picture">
-                <div style="width: 100px" id="thumb-output"></div>
+                <input id="picture" class="form-control"  accept="image/*;capture=camera" type="file" name="picture">
+                <br />
+                <img width="150px" id="output">
             </div>
           </div>
 
@@ -337,6 +338,26 @@
 
 <script>
 
+
+
+    const fileInput = document.getElementById('picture');
+    const output = document.getElementById('output');
+
+    fileInput.addEventListener('change', (e) => doSomethingWithFiles(e.target.files));
+    let file = null;
+    function doSomethingWithFiles(fileList) {
+      for (let i = 0; i < fileList.length; i++) {
+        if (fileList[i].type.match(/^image\//)) {
+          file = fileList[i];
+          break;
+        }
+      }
+
+      if (file !== null) {
+        output.src = URL.createObjectURL(file);
+      }
+    }
+
     var members = [];
     var leaders = [];
     var dataTable;
@@ -536,7 +557,7 @@
       $('select[name="re_encounter"]').val("0").change();
       $('select[name="sol3"]').val("0").change();
       $('select[name="baptism"]').val("").change();
-
+      output.src = "";
       $( "#formModal" ).modal('show');
     });
 
@@ -569,10 +590,14 @@
     $( "#saveNewBtn" ).click(function() {
       $('input[name="action"]').val("CREATE");
       $("#loader").show();
+      var formData = new FormData($("#dataForm")[0]);
+      if (file!=null) {
+        formData.set('picture',file,'picture.jpg');
+      }
       $.ajax({
            url: "{{ route('createRequest') }}",
            type: 'POST',
-           data: new FormData($("#dataForm")[0]),
+           data: formData,
            processData: false,
            contentType: false,
            success:function(data) {
@@ -631,8 +656,8 @@
              $('select[name="baptism"]').val(member.training.baptism).change();
              $( "#saveEditBtn" ).show();
              $( "#saveNewBtn" ).hide();
+             output.src = "{{ asset('dp') }}/"+member.dp_filename;
              $("#loader").hide();
-
              if (action=="UPDATE") {
                $( "#formModal" ).modal('show');
              }
@@ -673,10 +698,14 @@
 
     $( "#saveEditBtn" ).click(function() {
       $("#loader").show();
+      var formData = new FormData($("#dataForm")[0]);
+      if (file!=null) {
+        formData.set('picture',file,'picture.jpg');
+      }
       $.ajax({
            url: "{{ route('createRequest') }}",
            type: 'POST',
-           data: new FormData($("#dataForm")[0]),
+           data: formData,
            processData: false,
            contentType: false,
            success:function(data) {

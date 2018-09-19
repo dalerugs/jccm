@@ -11,8 +11,8 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
+// Route::get('/info', function () {
+//     phpinfo();
 // });
 
 Route::get('', 'AuthController@showLogin')->name("login")->middleware('guest');

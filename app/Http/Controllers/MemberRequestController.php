@@ -125,6 +125,10 @@ class MemberRequestController extends Controller
     return $data;
   }
 
+  public function count(){
+    return response()->json(MemberRequest::all()->count());
+  }
+
   public function readWithFilter(Request $request){
     $members = MemberRequest::orderBy('first_name')->get();
 
@@ -311,10 +315,14 @@ class MemberRequestController extends Controller
 
   public function delete($id)
   {
-      $member = MemberRequest::findOrFail($id);
-      $training = TrainingRequest::where('member', $member->id)->first();
-      $member->delete();
-      $training->delete();
+      $member_request = MemberRequest::findOrFail($id);
+      $member = Member::findOrFail($member_request->member);
+      $training_request = TrainingRequest::where('member', $member_request->id)->first();
+      if ($member_request->dp_filename != "default.png" && $member_request->dp_filename != $member->dp_filename ) {
+        unlink(public_path().'/dp/'.$member_request->dp_filename);
+      }
+      $member_request->delete();
+      $training_request->delete();
       return 204;
   }
 

@@ -111,7 +111,11 @@
     @if(Auth::user()->type=="ADMIN")
     <li id="adminNav" >
       <a href="{{route('admin')}}">
-        <i class="fa fa-lock"></i> <span>Admin</span>
+        <i class="fa fa-lock notification"></i>
+        <span class="notification">
+          Admin
+          <span  class="label label-danger pull-right notificationCount"></span>
+        </span>
       </a>
     </li>
     @endif
@@ -197,6 +201,27 @@
 
 <script>
     $('#'+"{{$active}}").addClass("active");
+
+    @if(Auth::user()->type=="ADMIN")
+    getProgress();
+    setInterval(getProgress,5000);
+    function getProgress(){
+        $.ajax({
+            url: "{{route('countRequests')}}",
+            success: function(count){
+                if (count>0) {
+                  $(".notificationCount").text(count);
+                  $(".notification").addClass("notify");
+                }else {
+                  $(".notificationCount").text("");
+                  $(".notification").removeClass("notify");
+                }
+
+            }
+        });
+    }
+    @endif
+
 </script>
 
 @yield('js')

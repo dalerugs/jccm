@@ -8,6 +8,14 @@
     src: url(../fonts/Abel-Regular.ttf);
 }
 
+.notify{
+  color: #dd4b39;
+}
+.notify:hover{
+  color: #dd4b39;
+  opacity: 0.8;
+}
+
 .style-1{
   font-family: 'Open Sans Condensed', sans-serif;
 }
