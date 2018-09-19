@@ -161,7 +161,7 @@
              if (data.success) {
                swal({
                  title: "Success!",
-                 text: "Data was succesfully saved.",
+                 text: "User was succesfully saved.",
                  type:
                  "success"
                }).then(function(){
@@ -175,6 +175,7 @@
                    html += "• "+value+"<br />";
                });
                $("#errorMsg").html(html);
+               $('#formModal').animate({ scrollTop: 0 }, 'slow');
                $("#errorMsg").fadeIn().delay(3000).fadeOut();
              }
            }
@@ -216,7 +217,7 @@
              if (data.success) {
                swal({
                  title: "Success!",
-                 text: "Data was succesfully saved.",
+                 text: "User was succesfully saved.",
                  type:
                  "success"
                }).then(function(){
@@ -230,6 +231,7 @@
                    html += "• "+value+"<br />";
                });
                $("#errorMsg").html(html);
+               $('#formModal').animate({ scrollTop: 0 }, 'slow');
                $("#errorMsg").fadeIn().delay(3000).fadeOut();
              }
            }
@@ -260,7 +262,7 @@
                  $("#loader").hide();
                  swalWithBootstrapButtons(
                    'Deleted!',
-                   'Data has been deleted.',
+                   'User was succesfully deleted.',
                    'success'
                  ).then(function(){
                     location.reload();

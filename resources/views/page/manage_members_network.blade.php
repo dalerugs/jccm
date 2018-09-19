@@ -707,6 +707,7 @@
                      html += "• "+value+"<br />";
                  });
                  $("#errorMsg").html(html);
+                 $('#formModal').animate({ scrollTop: 0 }, 'slow');
                  $("#errorMsg").fadeIn().delay(3000).fadeOut();
                }
              }
