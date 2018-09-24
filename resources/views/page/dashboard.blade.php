@@ -47,7 +47,7 @@
               <p><br /> Leaders</p>
             </div>
             <div class="icon">
-              <i class="fa fa-user-secret"></i>
+              <i class="fa fa-users"></i>
             </div>
             <a href="{{route('members')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
