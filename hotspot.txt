@@ -1,0 +1,18 @@
+1.) Open an elevated command prompt. Win+X and choose CMD (Admin) OR type in "cmd" or "command prompt" into Windows Search by typing into Start Menu and then right click "Command Prompt" and select "Run As Administrator"
+
+2.) Check if your system is capable run this command: netsh wlan show drivers. Scroll down to Hosted network supported. If it saysYes you are in luck; if No there is no easy alternative and don't continue.
+
+3.) Run the following command to allow and set up your hostednetwork but look below first.
+
+netsh wlan set hostednetwork mode=allow ssid=%ssid% key=%pass% keyUsage=persistent
+Replace %ssid% with your Wifi or "Hotspot" Name or SSID. E.g. ssid=MyGreatHotspot. Replace %pass% with your Wifi or "Hotspot" Password. It must be 8 characters long at a minimum. E.g. key=strongPasswordsAreWEAK.
+
+4.) After that run the command, netsh wlan start hostednetwork, to start the "Hotspot" broadcast. Right now you can play without internet connection after all devices connect. Remember to check IP addresses of all your individual devices in order to connect to each other. The hotspot's IP Address usually is "192.168.137.1".
+
+If you want to share your internet connection or for further reference, continue on:
+
+5.) Open Run (Win + R) or by searching for Run and enter in ncpa.cpl, then press Enter. A new adapter has shown in the screen it should say something along the lines of "Microsoft Hosted Network Virtual Adapter". (Optional if you're OCD, rename that one if its says "L.A.N Connection* 15" or rather to like "Hotspot"). Right click the Internet Connect Source you want to share internet from and choose "Properties." Go to the "Sharing" Tab and checkmark or toggle on "Allow other network users to connect through this computer's Internet Connection." Apply, OK to save changes.
+
+6.) You should be all set! :)
+
+If you want to stop the hostednetwork, in an elevated command prompt you run the command: netsh wlan stop hostednetwork
