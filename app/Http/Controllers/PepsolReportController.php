@@ -39,7 +39,7 @@ class PepsolReportController extends Controller
             [$column,1],
         ])->count();
         $batch[$key] = $count;
-        $total[$key] = $count;
+        $total[$key] += $count;
       }
       $batch['total'] = round($batch['PRE']==0?0:($batch['SOL3']/$batch['PRE'])*100);
     }
@@ -61,7 +61,7 @@ class PepsolReportController extends Controller
           ['trainings.'.$column,1]
           ])->count();
         $batch[$key] = $count;
-        $total[$key] = $count;
+        $total[$key] += $count;
       }
       $batch['total'] = round($batch['PRE']==0?0:($batch['SOL3']/$batch['PRE'])*100);
     }
