@@ -2,6 +2,7 @@
 
 @section('css')
 <link href="{{ asset('css/login.css') }}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
 @endsection
 
 @section('content')
@@ -41,7 +42,8 @@
             Or
           </div>
           <div class="form-group">
-            <a class="btn btn-danger btn-block" href="{{route('sharehub')}}"><b>Go To ShareHub</b></a>
+            <a class="btn btn-danger btn-block" href="{{route('sharehub')}}">
+              <b>Go To <i class="fa fa-share-alt"></i>&nbsp;ShareHub</b></a>
           </div>
         </form>
       </div>
