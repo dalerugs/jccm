@@ -145,9 +145,9 @@
    <div  class="pull-right">
      <b>Version</b> 1.0
    </div>
-   <div style="margin-right:2%" class="pull-right hidden-xs">
+   <!-- <div style="margin-right:2%" class="pull-right hidden-xs">
      <b>IP</b> {{getHostByName(getHostName())}}
-   </div>
+   </div> -->
    <strong>Copyright &copy; 2018 <a href="{{route('dashboard')}}">JCCM Members Management System</a>.</strong> All rights
    reserved.
  </footer>

@@ -22,17 +22,17 @@ Route::get('logout', 'AuthController@doLogout')->name("logout");
 Route::get('dashboard', 'DashboardController@index')->name("dashboard");
 
 
-Route::get('admin', 'AdminController@index')->name("admin");
-Route::get('admin/manageUsers', 'AdminController@manageUsers')->name("manageUsers");
-Route::get('admin/manageMembers', 'AdminController@manageMembers')->name("manageMembers");
-Route::get('admin/manageBatch', 'AdminController@manageBatch')->name("manageBatch");
-Route::get('admin/manageFiles', 'AdminController@manageFiles')->name("manageFiles");
-Route::get('admin/manageRequests', 'AdminController@manageRequests')->name("manageRequests");
+Route::get('admin', 'AdminController@index')->name("admin")->middleware('auth');
+Route::get('admin/manageUsers', 'AdminController@manageUsers')->name("manageUsers")->middleware('auth');
+Route::get('admin/manageMembers', 'AdminController@manageMembers')->name("manageMembers")->middleware('auth');
+Route::get('admin/manageBatch', 'AdminController@manageBatch')->name("manageBatch")->middleware('auth');
+Route::get('admin/manageFiles', 'AdminController@manageFiles')->name("manageFiles")->middleware('auth');
+Route::get('admin/manageRequests', 'AdminController@manageRequests')->name("manageRequests")->middleware('auth');
 
-Route::get('files', 'FileController@showFilesPage')->name("files");
-Route::get('members', 'MemberController@showMembersPage')->name("members");
-Route::get('pepsol', 'PepsolReportController@index')->name("pepsol");
+Route::get('files', 'FileController@showFilesPage')->name("files")->middleware('auth');
+Route::get('members', 'MemberController@showMembersPage')->name("members")->middleware('auth');
+Route::get('pepsol', 'PepsolReportController@index')->name("pepsol")->middleware('auth');
 
-Route::get('myNetwork', 'MyNetworkController@showMyNetworkMenu')->name("myNetwork");
-Route::get('myNetwork/manageMembers', 'MyNetworkController@manageMembers')->name("myNetworkMembers");
-Route::get('myNetwork/manageRequests', 'MyNetworkController@manageRequests')->name("myNetworkRequests");
+Route::get('myNetwork', 'MyNetworkController@showMyNetworkMenu')->name("myNetwork")->middleware('auth');
+Route::get('myNetwork/manageMembers', 'MyNetworkController@manageMembers')->name("myNetworkMembers")->middleware('auth');
+Route::get('myNetwork/manageRequests', 'MyNetworkController@manageRequests')->name("myNetworkRequests")->middleware('auth');
