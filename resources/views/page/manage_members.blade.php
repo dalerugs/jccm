@@ -388,7 +388,7 @@
                   "<td>"+member.network_leader+"</td>" +
                   "<td>"+member.leader+"</td>" +
                   "<td>"+Math.pow(12, member.level)+"</td>" +
-                  "<td>"+(member.inactive?"Inactive":"Active")+"</td>" +
+                  "<td>"+(member.inactive==1?"Inactive":"Active")+"</td>" +
                   "<td>" +
                   "<button onclick='viewBtn("+member.id+")' class='btn btn-primary btn-block btn-sm'>View</button>" +
                   "<button onclick='editBtn("+member.id+")' class='btn btn-info btn-block btn-sm'>Edit</button>" +
@@ -474,7 +474,7 @@
                   "<td>"+member.network_leader+"</td>" +
                   "<td>"+member.leader+"</td>" +
                   "<td>"+Math.pow(12, member.level)+"</td>" +
-                  "<td>"+(member.inactive?"Inactive":"Active")+"</td>" +
+                  "<td>"+(member.inactive==1?"Inactive":"Active")+"</td>" +
                   "<td>" +
                   "<button onclick='viewBtn("+member.id+")' class='btn btn-primary btn-block btn-sm'>View</button>" +
                   "<button onclick='editBtn("+member.id+")' class='btn btn-info btn-block btn-sm'>Edit</button>" +
