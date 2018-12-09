@@ -37,6 +37,12 @@
           <div class="form-group">
             <button class="btn btn-primary btn-block"><b>SIGN IN</b></button>
           </div>
+          <div style="font-size:15px;text-align:center" class="form-group member-login">
+            Or
+          </div>
+          <div class="form-group">
+            <a class="btn btn-danger btn-block" href="{{route('sharehub')}}"><b>Go To ShareHub</b></a>
+          </div>
         </form>
       </div>
     </div>
