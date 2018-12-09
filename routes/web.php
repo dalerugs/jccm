@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/info', function () {
-    phpinfo();
-});
+Route::get('sharehub', 'ShareHubController@showShareHubLanding')->name("sharehub");
 
 Route::get('', 'AuthController@showLogin')->name("login")->middleware('guest');
 Route::post('login', 'AuthController@doLogin')->name("doLogin");

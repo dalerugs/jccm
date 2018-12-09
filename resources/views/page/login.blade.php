@@ -12,7 +12,7 @@
         JCCM
       </div>
       <div class="style-2 white subtitle">
-        Jesus The Cornerstone Christian Ministries
+        Jesus The Cornerstone Christian Ministries <br /> Members Management System
       </div>
     </div>
     <div class="col-md-5">
