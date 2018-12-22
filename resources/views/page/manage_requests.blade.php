@@ -301,7 +301,8 @@
                      "<td>"+(member.action=="CREATE"?"NEW MEMBER":member.action+" MEMBER")+"</td>" +
                      "<td>" +
                      "<button onclick='viewBtn("+member.id+")' class='btn btn-primary btn-block btn-sm'>View</button>" +
-                     "<button onclick='deleteBtn("+member.id+","+'"'+"DELETE"+'"'+")' class='btn btn-danger btn-block btn-sm'>Delete</button>" +
+                     "<button onclick='approveBtn("+member.id+")' class='btn btn-success btn-block btn-sm'>Approve</button>" +
+                     "<button onclick='rejectBtn("+member.id+")' class='btn btn-danger btn-block btn-sm'>Reject</button>" +
                      "</td>" +
                    "</tr>";
                 }
@@ -365,8 +366,8 @@
                success:function(data) {
                  $("#loader").hide();
                  swalWithBootstrapButtons(
-                   'Aprooved!',
-                   'Request was sucessfully approved.',
+                   'Success!',
+                   'Request was successfully approved.',
                    'success'
                  ).then(function(){
                     location.reload();
@@ -412,8 +413,8 @@
                success:function(data) {
                  $("#loader").hide();
                  swalWithBootstrapButtons(
-                   'Rejected!',
-                   'Request was sucesfully rejected.',
+                   'Success!',
+                   'Request was successfully rejected.',
                    'success'
                  ).then(function(){
                     location.reload();

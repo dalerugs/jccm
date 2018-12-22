@@ -28,14 +28,47 @@ class MemberController extends Controller
   }
 
   public function create(Request $request){
-      $validator = Validator::make($request->all(), [
-          'first_name' => 'required',
-          'last_name' => 'required',
-          'sex' => 'required',
-          'birth_date' => 'required',
-          'address' => 'required',
-          'level' => 'required',
-      ]);
+
+      if ($request->input('level')==1) {
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'sex' => 'required',
+            'birth_date' => 'required',
+            'address' => 'required',
+            'level' => 'required',
+        ]);
+      }else if($request->input('level')==2) {
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'sex' => 'required',
+            'birth_date' => 'required',
+            'address' => 'required',
+            'level' => 'required',
+            'network_id' => 'required'
+        ],
+        [
+          'required' => 'The :attribute field is required.',
+          'network_id.required' => 'The network leader field is required.',
+        ]);
+      }else{
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'sex' => 'required',
+            'birth_date' => 'required',
+            'address' => 'required',
+            'level' => 'required',
+            'network_id' => 'required',
+            'leader_id' => 'required'
+        ],
+        [
+          'required' => 'The :attribute field is required.',
+          'leader_id.required' => 'The leader field is required.',
+        ]);
+      }
+
       if ($validator->passes()) {
         $filename = "default.png";
         if($request->hasFile('picture')) {
@@ -205,14 +238,48 @@ class MemberController extends Controller
       $old_network_id = $member->network_id;
 
       $training = Training::where('member', $member->id)->first();
-      $validator = Validator::make($request->all(), [
-          'first_name' => 'required',
-          'last_name' => 'required',
-          'sex' => 'required',
-          'birth_date' => 'required',
-          'address' => 'required',
-          'level' => 'required',
-      ]);
+
+      if ($request->input('level')==1) {
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'sex' => 'required',
+            'birth_date' => 'required',
+            'address' => 'required',
+            'level' => 'required',
+        ]);
+      }else if($request->input('level')==2) {
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'sex' => 'required',
+            'birth_date' => 'required',
+            'address' => 'required',
+            'level' => 'required',
+            'network_id' => 'required'
+        ],
+        [
+          'required' => 'The :attribute field is required.',
+          'network_id.required' => 'The network leader field is required.',
+        ]);
+      }else{
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'sex' => 'required',
+            'birth_date' => 'required',
+            'address' => 'required',
+            'level' => 'required',
+            'network_id' => 'required',
+            'leader_id' => 'required'
+        ],
+        [
+          'required' => 'The :attribute field is required.',
+          'leader_id.required' => 'The leader field is required.',
+        ]);
+      }
+
+
       if ($validator->passes()) {
           if ($request->input('level')==2) {
             $leader_id = $request->input('network_id');

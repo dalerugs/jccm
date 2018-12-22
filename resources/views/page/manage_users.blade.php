@@ -61,7 +61,7 @@
             </select>
           </div>
           <div id="networkView" style="display:none" class="form-group">
-            <label>Network</label>
+            <label>Manage Network</label>
             <select class="form-control" name="network">
               <option value="" selected disabled>Select Network</option>
               @foreach ($networks as $network)

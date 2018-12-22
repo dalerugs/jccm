@@ -87,19 +87,19 @@
               <h4><b>INFORMATION</b></h4>
             </div>
             <div class="form-group">
-              <label>First Name</label>
+              <label>First Name <span style="color:red">*</span></label>
               <input class="form-control" type="text" name="first_name" placeholder="Enter First Name" />
             </div>
             <div class="form-group">
-              <label>Last Name</label>
+              <label>Last Name <span style="color:red">*</span></label>
               <input class="form-control" type="text" name="last_name" placeholder="Enter Last Name" />
             </div>
             <div class="form-group">
-              <label>Birth Date</label>
+              <label>Birth Date <span style="color:red">*</span></label>
               <input class="form-control" type="date" name="birth_date" />
             </div>
             <div class="form-group">
-              <label>Sex</label>
+              <label>Sex <span style="color:red">*</span></label>
               <select class="form-control choose" name="sex">
                   @if($user->sex=="MALE")
                   <option value="MALE">Male</option>
@@ -109,11 +109,11 @@
               </select>
             </div>
             <div class="form-group">
-              <label>Address</label>
+              <label>Address <span style="color:red">*</span></label>
               <textarea class="form-control" rows="2" name="address"></textarea>
             </div>
             <div class="form-group">
-              <label>Level</label>
+              <label>Level <span style="color:red">*</span></label>
               <select class="form-control choose" name="level">
                   <option value="" disabled selected value>Select Level</option>
                   @for($i=2;$i<=App\Constants::$MAX_LEVEL;$i++)
@@ -122,13 +122,13 @@
               </select>
             </div>
             <div id="networkLeaderView" style="display:none" class="form-group">
-              <label>Network Leader</label>
+              <label>Network Leader <span style="color:red">*</span></label>
               <select class="form-control choose" name="network_id">
                   <option value="" disabled selected value>Select Network Leader</option>
               </select>
             </div>
             <div id="leaderView" style="display:none" class="form-group">
-              <label>Leader</label>
+              <label>Leader <span style="color:red">*</span></label>
               <select class="form-control choose" name="leader_id">
                   <option value="" disabled selected value>Select Leader</option>
               </select>
@@ -381,9 +381,9 @@
              var html = "";
              $.each( data.members, function( key, member ) {
                if(member.level>1){
-                 var status="<button onclick='toggleMemberStatusBtn("+member.id+",0)' class='btn btn-success btn-block btn-sm'>Activate</button>";
-                  if (!member.inactive) {
-                    status = "<button onclick='toggleMemberStatusBtn("+member.id+",1)' class='btn btn-warning btn-block btn-sm'>Deactivate</button>";
+                 var status="<button onclick='toggleMemberStatusBtn("+member.id+",0)' class='btn btn-success btn-block btn-sm'>Active</button>";
+                  if (member.inactive==0) {
+                    status = "<button onclick='toggleMemberStatusBtn("+member.id+",1)' class='btn btn-warning btn-block btn-sm'>Inactive</button>";
                   }
                   html +=
                   "<tr>" +
@@ -604,8 +604,8 @@
              $("#loader").hide();
              if (data.success) {
                swal({
-                 title: "Success!",
-                 text: "New member request was succesfully created.",
+                 title: "Request Submitted!",
+                 text: "",
                  type:
                  "success"
                }).then(function(){
@@ -728,7 +728,7 @@
                  swal({
                     type: 'error',
                     title: 'Oops...',
-                    text: "There's a pending request for this this member! Delete the request first.",
+                    text: "A Request form for this member was already submitted.",
                   })
                }else {
                  var html = "";
@@ -756,8 +756,8 @@
         text: "You won't be able to revert this action!",
         type: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, '+(status?"deactivate":"activate")+' it!',
-        cancelButtonText: 'No, cancel!',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
         reverseButtons: true
       }).then((result) => {
         if (result.value) {

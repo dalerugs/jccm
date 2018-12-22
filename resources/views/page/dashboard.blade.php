@@ -78,8 +78,8 @@
           <div class="nav-tabs-custom">
             <!-- Tabs within a box -->
             <ul class="nav nav-tabs pull-right">
-              <li class=""><a onclick="womensTablClick()" href="javascript:void(0)" data-toggle="tab">Womens</a></li>
-              <li class="active"><a onclick="mensTabClick()" href="javascript:void(0)" data-toggle="tab">Mens</a></li>
+              <li class=""><a onclick="womensTablClick()" href="javascript:void(0)" data-toggle="tab">Women</a></li>
+              <li class="active"><a onclick="mensTabClick()" href="javascript:void(0)" data-toggle="tab">Men</a></li>
               <li class="pull-left header"><i class="fa fa-sitemap"></i> Networks</li>
             </ul>
             <div style="padding:10px" class="tab-content">
