@@ -135,7 +135,7 @@
             </div>
             <div class="form-group">
                 <label>Picture</label>
-                <input id="picture" class="form-control"  accept="image/*;capture=camera" type="file" name="picture">
+                <input id="picture" class="form-control"  accept="image/x-png,image/jpeg,capture=camera" type="file" name="picture">
                 <br />
                 <img width="150px" id="output">
             </div>
