@@ -194,7 +194,10 @@
              $('input[name="first_name"]').val(data.first_name);
              $('input[name="last_name"]').val(data.last_name);
              $('select[name="type"]').val(data.type).change();
+             $('select[name="network"]').val(data.network).change();
              $('input[name="username"]').val(data.username);
+             $('input[name="password"]').val("");
+             $('input[name="password_confirmation"]').val("");
              $("#modalTitle").text("Edit User");
              $( "#saveEditUserBtn" ).show();
              $( "#saveNewUserBtn" ).hide();
