@@ -382,7 +382,6 @@ class MemberRequestController extends Controller
   public function delete($id)
   {
       $member_request = MemberRequest::findOrFail($id);
-      $member = Member::findOrFail($member_request->member);
       $training_request = TrainingRequest::where('member', $member_request->id)->first();
       if ($member_request->dp_filename != "default.png" && $member_request->dp_filename != $member->dp_filename ) {
         unlink(public_path().'/dp/'.$member_request->dp_filename);
