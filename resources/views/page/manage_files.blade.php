@@ -128,7 +128,7 @@
              if (data.success) {
                swal({
                  title: "Success!",
-                 text: "File was succesfully saved.",
+                 text: "",
                  type:
                  "success"
                }).then(function(){
@@ -183,7 +183,7 @@
              if (data.success) {
                swal({
                  title: "Success!",
-                 text: "File was succesfully saved.",
+                 text: "",
                  type:
                  "success"
                }).then(function(){
@@ -216,8 +216,8 @@
         text: "You won't be able to revert this action!",
         type: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
         reverseButtons: true
       }).then((result) => {
         if (result.value) {
@@ -227,7 +227,7 @@
                success:function(data) {
                  $("#loader").hide();
                  swalWithBootstrapButtons(
-                   'Deleted!',
+                   'Success!',
                    'File was succesfully deleted.',
                    'success'
                  ).then(function(){
@@ -236,15 +236,6 @@
                  );
                }
            });
-        } else if (
-          // Read more about handling dismissals
-          result.dismiss === swal.DismissReason.cancel
-        ) {
-          swalWithBootstrapButtons(
-            'Cancelled',
-            '',
-            'error'
-          );
         }
       });
     }

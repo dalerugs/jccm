@@ -604,8 +604,8 @@
              $("#loader").hide();
              if (data.success) {
                swal({
-                 title: "Request Submitted!",
-                 text: "",
+                 title: "Success!",
+                 text: "Request submitted.",
                  type:
                  "success"
                }).then(function(){
@@ -673,20 +673,12 @@
                  text: "You won't be able to revert this action!",
                  type: 'warning',
                  showCancelButton: true,
-                 confirmButtonText: 'Yes, delete it!',
-                 cancelButtonText: 'No, cancel!',
+                 confirmButtonText: 'Yes',
+                 cancelButtonText: 'No',
                  reverseButtons: true
                }).then((result) => {
                  if (result.value) {
                    $( "#saveEditBtn" ).click();
-                 } else if (
-                   result.dismiss === swal.DismissReason.cancel
-                 ) {
-                   swalWithBootstrapButtons(
-                     'Cancelled',
-                     '',
-                     'error'
-                   );
                  }
                });
              }
@@ -714,8 +706,7 @@
              if (data.success) {
                swal({
                  title: "Success!",
-                 text: ($("input[name='action']").val()=="UPDATE")?"Update member request was succesfully created."
-                        :"Delete member request was succesfully created.",
+                 text: "Request submitted.",
                  type:
                  "success"
                }).then(function(){
@@ -728,7 +719,7 @@
                  swal({
                     type: 'error',
                     title: 'Oops...',
-                    text: "A Request form for this member was already submitted.",
+                    text: "A Request for this member was already submitted.",
                   })
                }else {
                  var html = "";
@@ -767,8 +758,8 @@
                success:function(data) {
                  $("#loader").hide();
                  swalWithBootstrapButtons(
-                   (status?"Deactivated":"Activated"),
-                   'Member was succesfully '+(status?"deactivated":"activated")+'.',
+                   "Success",
+                   '',
                    'success'
                  ).then(function(){
                     location.reload();
@@ -776,14 +767,6 @@
                  );
                }
            });
-        } else if (
-          result.dismiss === swal.DismissReason.cancel
-        ) {
-          swalWithBootstrapButtons(
-            'Cancelled',
-            '',
-            'error'
-          );
         }
       });
     }

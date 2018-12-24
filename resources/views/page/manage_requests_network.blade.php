@@ -348,8 +348,8 @@
         text: "You won't be able to revert this action!",
         type: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel!',
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
         reverseButtons: true
       }).then((result) => {
         if (result.value) {
@@ -359,8 +359,8 @@
                success:function(data) {
                  $("#loader").hide();
                  swalWithBootstrapButtons(
-                   'Deleted!',
-                   'Request was sucessfully deleted.',
+                   'Success!',
+                   '',
                    'success'
                  ).then(function(){
                     location.reload();
@@ -368,15 +368,6 @@
                  );
                }
            });
-        } else if (
-          // Read more about handling dismissals
-          result.dismiss === swal.DismissReason.cancel
-        ) {
-          swalWithBootstrapButtons(
-            'Cancelled',
-            '',
-            'error'
-          );
         }
       });
     }

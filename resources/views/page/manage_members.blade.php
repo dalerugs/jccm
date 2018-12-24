@@ -611,7 +611,7 @@
              if (data.success) {
                swal({
                  title: "Success!",
-                 text: "Member was succesfully saved.",
+                 text: "",
                  type:
                  "success"
                }).then(function(){
@@ -687,7 +687,7 @@
              if (data.success) {
                swal({
                  title: "Success!",
-                 text: "Member was succesfully saved.",
+                 text: "",
                  type:
                  "success"
                }).then(function(){
@@ -731,8 +731,8 @@
                success:function(data) {
                  $("#loader").hide();
                  swalWithBootstrapButtons(
-                   (status?"Deactivated":"Activated"),
-                   'Member was succesfully '+(status?"deactivated":"activated")+'.',
+                   "Success!",
+                   '',
                    'success'
                  ).then(function(){
                     location.reload();
@@ -740,15 +740,6 @@
                  );
                }
            });
-        } else if (
-          // Read more about handling dismissals
-          result.dismiss === swal.DismissReason.cancel
-        ) {
-          swalWithBootstrapButtons(
-            'Cancelled',
-            '',
-            'error'
-          );
         }
       });
     }
@@ -776,8 +767,8 @@
                success:function(data) {
                  $("#loader").hide();
                  swalWithBootstrapButtons(
-                   'Deleted!',
-                   'Member was succesfully deleted.',
+                   'Success!',
+                   '',
                    'success'
                  ).then(function(){
                     location.reload();
@@ -785,16 +776,7 @@
                  );
                }
            });
-        } else if (
-          // Read more about handling dismissals
-          result.dismiss === swal.DismissReason.cancel
-        ) {
-          swalWithBootstrapButtons(
-            'Cancelled',
-            '',
-            'error'
-          );
-        }
+        } 
       });
     }
 

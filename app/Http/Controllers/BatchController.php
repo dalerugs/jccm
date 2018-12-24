@@ -10,9 +10,12 @@ class BatchController extends Controller
 {
   public function create(Request $request){
       $validator = Validator::make($request->all(), [
-          'no' => 'required|integer|min:1',
+          'no' => 'required|integer|min:1|unique:batches',
           'name' => 'required',
           'description' => 'required',
+      ],
+      [
+        'no.unique' => 'The batch no already exist.',
       ]);
       if ($validator->passes()) {
             $user = Batch::create($request->all());
