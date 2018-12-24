@@ -38,13 +38,13 @@
           <div class="form-group">
             <button class="btn btn-primary btn-block"><b>SIGN IN</b></button>
           </div>
-          <div style="font-size:15px;text-align:center" class="form-group member-login">
+          <!-- <div style="font-size:15px;text-align:center" class="form-group member-login">
             Or
           </div>
           <div class="form-group">
             <a class="btn btn-danger btn-block" href="{{route('sharehub')}}">
               <b>Go To <i class="fa fa-share-alt"></i>&nbsp;ShareHub</b></a>
-          </div>
+          </div> -->
         </form>
       </div>
     </div>

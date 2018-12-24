@@ -371,14 +371,13 @@
                    'success'
                  ).then(function(){
                     location.reload();
-                    }
-                 );
-               }
-           });
-
-
-      });
-    }
+                  }
+               );
+             }
+         });
+      }
+    });
+  }
 
 
 

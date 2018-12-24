@@ -15,14 +15,80 @@ class MemberRequestController extends Controller
 {
 
   public function create(Request $request){
+    if (empty($request->input('level'))) {
       $validator = Validator::make($request->all(), [
           'first_name' => 'required',
           'last_name' => 'required',
           'sex' => 'required',
-          'birth_date' => 'required',
+          'birth_date' => 'required|before:10 years ago',
           'address' => 'required',
           'level' => 'required',
+      ],
+      [
+        'required' => 'The :attribute field is required.',
+        'before' => 'Age must be at least 10 years old'
       ]);
+    }
+    else if ($request->input('level')==1 ) {
+      $validator = Validator::make($request->all(), [
+          'first_name' => 'required',
+          'last_name' => 'required',
+          'sex' => 'required',
+          'birth_date' => 'required|before:10 years ago',
+          'address' => 'required',
+          'level' => 'required',
+          'batch'=> 'required',
+          'pre_encounter'=> 'numeric|min:1',
+          'encounter'=> 'numeric|min:1',
+          'post_encounter'=> 'numeric|min:1',
+          'sol1'=> 'numeric|min:1',
+          'sol2'=> 'numeric|min:1',
+          're_encounter'=> 'numeric|min:1',
+          'sol3' => 'numeric|min:1',
+          'baptism' => 'required',
+      ],
+      [
+        'before' => 'Age must be at least 10 years old.',
+        'pre_encounter.min' => 'The pre-encounter field is required.',
+        'encounter.min' => 'The encounter field is required.',
+        'post_encounter.min' => 'The post encounter field is required.',
+        'sol1.min' => 'The SOL 1 field is required.',
+        'sol2.min' => 'The SOL 2 field is required.',
+        're_encounter.min' => 'The re-encounter field is required.',
+        'sol3.min' => 'The SOL 3 field is required.',
+      ]);
+    }else if($request->input('level')==2) {
+      $validator = Validator::make($request->all(), [
+          'first_name' => 'required',
+          'last_name' => 'required',
+          'sex' => 'required',
+          'birth_date' => 'required|before:10 years ago',
+          'address' => 'required',
+          'level' => 'required',
+          'network_id' => 'required'
+      ],
+      [
+        'required' => 'The :attribute field is required.',
+        'network_id.required' => 'The network leader field is required.',
+        'before' => 'Age must be at least 10 years old'
+      ]);
+    }else if($request->input('level')>2){
+      $validator = Validator::make($request->all(), [
+          'first_name' => 'required',
+          'last_name' => 'required',
+          'sex' => 'required',
+          'birth_date' => 'required|before:10 years ago',
+          'address' => 'required',
+          'level' => 'required',
+          'network_id' => 'required',
+          'leader_id' => 'required'
+      ],
+      [
+        'required' => 'The :attribute field is required.',
+        'leader_id.required' => 'The leader field is required.',
+        'before' => 'Age must be at least 10 years old'
+      ]);
+    }
       if ($validator->passes()) {
         $inactive = 0;
         $filename = "default.png";
