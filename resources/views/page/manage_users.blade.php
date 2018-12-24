@@ -135,7 +135,7 @@
       $('input[name="last_name"]').val("");
       $('select[name="type"]').val("ADMIN").change();
       $('input[name="username"]').val("");
-      $( "#userModal" ).modal('show');
+      $( "#userModal" ).modal({backdrop: 'static', keyboard: false});;
 
     });
 
@@ -201,7 +201,7 @@
              $("#modalTitle").text("Edit User");
              $( "#saveEditUserBtn" ).show();
              $( "#saveNewUserBtn" ).hide();
-             $( "#userModal" ).modal('show');
+             $( "#userModal" ).modal({backdrop: 'static', keyboard: false});;
            }
        });
 

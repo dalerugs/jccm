@@ -322,7 +322,7 @@
              $('#sol3').html((member.training.sol3==1)?"<i class='fa fa-check' aria-hidden='true'></i>":"");
              $('#baptism').text((!member.training.baptism)?"N/A":member.training.baptism);
              $("#loader").hide();
-             $( "#viewModal" ).modal('show');
+             $( "#viewModal" ).modal({backdrop: 'static', keyboard: false});;
            }
        });
     }

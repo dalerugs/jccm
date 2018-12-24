@@ -107,10 +107,10 @@
       $('input[name="id"]').hide();
       $('input[name="no"]').val("");
       $('input[name="name"]').val("");
-      $('input[name="description"]').val("");
+      $('textarea[name="description"]').val("");
       $( "#saveNewBtn").show();
       $( "#saveEditBtn").hide();
-      $( "#formModal" ).modal('show');
+      $( "#formModal" ).modal({backdrop: 'static', keyboard: false});
     });
 
     $( "#saveNewBtn" ).click(function() {
@@ -162,7 +162,7 @@
              $("#modalTitle").text("Edit Batch");
              $( "#saveEditBtn" ).show();
              $( "#saveNewBtn" ).hide();
-             $( "#formModal" ).modal('show');
+             $( "#formModal" ).modal({backdrop: 'static', keyboard: false});
            }
        });
 

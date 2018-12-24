@@ -112,7 +112,7 @@
       $('input[name="description"]').val("");
       $( "#saveNewBtn").show();
       $( "#saveEditBtn").hide();
-      $( "#formModal" ).modal('show');
+      $( "#formModal" ).modal({backdrop: 'static', keyboard: false});
     });
 
     $( "#saveNewBtn" ).click(function() {
@@ -164,7 +164,7 @@
              $( "#saveEditBtn" ).show();
              $( "#saveNewBtn" ).hide();
              $( "#fileFieldView" ).hide();
-             $( "#formModal" ).modal('show');
+             $( "#formModal" ).modal({backdrop: 'static', keyboard: false});
            }
        });
 

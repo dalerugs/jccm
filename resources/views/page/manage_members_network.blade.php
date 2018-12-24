@@ -531,7 +531,7 @@
              $('#sol3').html((member.training.sol3==1)?"<i class='fa fa-check' aria-hidden='true'></i>":"");
              $('#baptism').text((!member.training.baptism)?"N/A":member.training.baptism);
              $("#loader").hide();
-             $( "#viewModal" ).modal('show');
+             $( "#viewModal" ).modal({backdrop: 'static', keyboard: false});;
            }
        });
     }
@@ -558,7 +558,7 @@
       $('select[name="sol3"]').val("0").change();
       $('select[name="baptism"]').val("").change();
       output.src = "";
-      $( "#formModal" ).modal('show');
+      $( "#formModal" ).modal({backdrop: 'static', keyboard: false});;
     });
 
     $("select[name='level']").on('change', function() {
@@ -659,7 +659,7 @@
              output.src = "{{ asset('dp') }}/"+member.dp_filename;
              $("#loader").hide();
              if (action=="UPDATE") {
-               $( "#formModal" ).modal('show');
+               $( "#formModal" ).modal({backdrop: 'static', keyboard: false});;
              }
              else if(action="DELETE"){
                const swalWithBootstrapButtons = swal.mixin({
