@@ -54,6 +54,10 @@
             <input class="form-control" type="text" name="last_name" placeholder="Enter Last Name" />
           </div>
           <div class="form-group">
+            <label>Mobile Number</label>
+            <input class="form-control" type="text" name="mobile_number" placeholder="e.g. 09*********" />
+          </div>
+          <div class="form-group">
             <label>Type</label>
             <select class="form-control" name="type">
                 <option value="ADMIN">Admin</option>
@@ -73,13 +77,10 @@
             <label>Username</label>
             <input class="form-control" type="text" name="username" placeholder="Enter Username" />
           </div>
-          <div class="form-group">
-            <label>Password</label>
-            <input class="form-control" type="password" name="password" placeholder="• • • • • •" />
-          </div>
-          <div class="form-group">
-            <label>Confirm Password</label>
-            <input class="form-control" type="password" name="password_confirmation" placeholder="• • • • • •" />
+          <div id="password_view" class="form-group">
+            <label>Temporary Password</label>
+            <input class="form-control" type="text" name="temp_password" disabled />
+            <input class="form-control" type="hidden" name="password" />
           </div>
         </form>
       </div>
@@ -115,6 +116,7 @@
                   "<td>"+(user.type=="ADMIN"?"Admin":"Network Leader")+"</td>" +
                   "<td>" +
                   "<button onclick='editUserBtn("+user.id+")' class='btn btn-info btn-block'>Edit</button>" +
+                  "<button onclick='resetPasswordBtn("+user.id+")' class='btn btn-warning btn-block'>Reset Password</button>" +
                   "<button onclick='deleteUserBtn("+user.id+")' class='btn btn-danger btn-block'>Delete</button>" +
                   "</td>" +
                 "</tr>";
@@ -127,15 +129,26 @@
 
 
     $( "#addNewUserBtn" ).click(function() {
-      $("#modalTitle").text("Add New User");
-      $( "#saveNewUserBtn" ).show();
-      $( "#saveEditUserBtn" ).hide();
-      $('input[name="id"]').hide();
-      $('input[name="first_name"]').val("");
-      $('input[name="last_name"]').val("");
-      $('select[name="type"]').val("ADMIN").change();
-      $('input[name="username"]').val("");
-      $( "#userModal" ).modal({backdrop: 'static', keyboard: false});;
+      $("#loader").show();
+      $.ajax({
+           url: "{{ url('api/generateTemporaryPassword') }}",
+           success:function(data) {
+             $("#modalTitle").text("Add New User");
+             $( "#saveNewUserBtn" ).show();
+             $( "#saveEditUserBtn" ).hide();
+             $('input[name="id"]').hide();
+             $('input[name="first_name"]').val("");
+             $('input[name="last_name"]').val("");
+             $('select[name="type"]').val("ADMIN").change();
+             $('input[name="username"]').val("");
+             $( "#userModal" ).modal({backdrop: 'static', keyboard: false});;
+             $('input[name="password"]').val(data);
+             $('input[name="temp_password"]').val(data);
+             $( "#password_view" ).show();
+             $("#loader").hide();
+           }
+       });
+
 
     });
 
@@ -196,15 +209,14 @@
              $('select[name="type"]').val(data.type).change();
              $('select[name="network"]').val(data.network).change();
              $('input[name="username"]').val(data.username);
-             $('input[name="password"]').val("");
-             $('input[name="password_confirmation"]').val("");
+             $('input[name="mobile_number"]').val(data.mobile_number);
              $("#modalTitle").text("Edit User");
              $( "#saveEditUserBtn" ).show();
              $( "#saveNewUserBtn" ).hide();
+             $( "#password_view" ).hide();
              $( "#userModal" ).modal({backdrop: 'static', keyboard: false});;
            }
        });
-
     }
 
     $( "#saveEditUserBtn" ).click(function() {
@@ -266,6 +278,42 @@
                  swalWithBootstrapButtons(
                    'Success!',
                    '',
+                   'success'
+                 ).then(function(){
+                    location.reload();
+                    }
+                 );
+               }
+           });
+        }
+      });
+    }
+
+    function resetPasswordBtn(id){
+      const swalWithBootstrapButtons = swal.mixin({
+        confirmButtonClass: 'btn btn-success margin-10',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false,
+      });
+
+      swalWithBootstrapButtons({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this action!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.value) {
+          $("#loader").show();
+          $.ajax({
+               url: "{{ url('api/resetPassword') }}/"+id,
+               success:function(data) {
+                 $("#loader").hide();
+                 swalWithBootstrapButtons(
+                   'Success!',
+                   'Temporary password: '+data,
                    'success'
                  ).then(function(){
                     location.reload();

@@ -13,9 +13,18 @@ class AuthController extends Controller
       return view("page.login",$data);
     }
 
+    public function showChangePassword(){
+      $data['page_title'] = "Change Password";
+      return view("page.change_password",$data);
+    }
+
     public function doLogin(Request $request){
       if (Auth::attempt($request->only('username', 'password'))) {
+        if (Auth::user()->change_password==1) {
+          return redirect()->route('changePassword');
+        }else {
           return redirect()->route('dashboard');
+        }
       }
       else {
           return back()->withErrors(['msg', 'Invalid username or password.']);

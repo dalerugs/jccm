@@ -22,6 +22,9 @@ Route::get('readUsers', 'UserController@read')->name("readUsers");
 Route::get('showUser/{id}', 'UserController@show')->name("showUser");
 Route::post('updateUser', 'UserController@update')->name("updateUser");
 Route::get('deleteUser/{id}', 'UserController@delete')->name("deleteUser");
+Route::get('generateTemporaryPassword', 'UserController@generateTemporaryPassword')->name("generateTemporaryPassword");
+Route::get('resetPassword/{id}', 'UserController@resetPassword')->name("resetPassword");
+Route::post('changePasswordApi', 'UserController@changePasswordApi')->name("changePasswordApi");
 
 Route::post('createBatch', 'BatchController@create')->name("createBatch");
 Route::get('readBatch', 'BatchController@read')->name("readBatch");

@@ -16,6 +16,7 @@ Route::get('sharehub', 'ShareHubController@showShareHubLanding')->name("sharehub
 Route::get('', 'AuthController@showLogin')->name("login")->middleware('guest');
 Route::post('login', 'AuthController@doLogin')->name("doLogin");
 Route::get('logout', 'AuthController@doLogout')->name("logout");
+Route::get('changePassword', 'AuthController@showChangePassword')->name("changePassword")->middleware('auth');
 
 Route::get('dashboard', 'DashboardController@index')->name("dashboard");
 
