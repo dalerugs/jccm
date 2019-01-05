@@ -45,4 +45,13 @@ class MyNetworkController extends Controller
     $data['profile_picture'] = $data['user']->dp_filename;
     return view("page.manage_requests_network",$data);
   }
+
+  public function acitivityLogs(){
+    $data['page_title'] = "Activity Logs";
+    $data['page_description'] = "Browse Activity Logs";
+    $data['active'] = "myNetworkNav";
+    $data['user'] = Member::find(Auth::user()->network);
+    $data['profile_picture'] = $data['user']->dp_filename;
+    return view("page.activity_logs_netowork",$data);
+  }
 }

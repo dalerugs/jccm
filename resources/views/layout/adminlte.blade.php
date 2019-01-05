@@ -89,7 +89,11 @@
     @if(Auth::user()->type=="NET_LEAD")
 		<li id="myNetworkNav" >
       <a href="{{route('myNetwork')}}">
-        <i class="fa fa-sitemap"></i> <span>My Network</span>
+        <i class="fa fa-sitemap logs"></i>
+        <span class="logs">
+          My Network
+          <span  class="label label-danger pull-right logsCount"></span>
+        </span>
       </a>
     </li>
     @endif
@@ -220,6 +224,24 @@
             }
         });
     }
+    @elseif(Auth::user()->type=="NET_LEAD")
+      getProgress();
+      setInterval(getProgress,5000);
+      function getProgress(){
+          $.ajax({
+              url: "{{ url('api/countLogs',Auth::user()->network)}}",
+              success: function(count){
+                  if (count>0) {
+                    $(".logsCount").text(count);
+                    $(".logs").addClass("notify");
+                  }else {
+                    $(".logsCount").text("");
+                    $(".logs").removeClass("notify");
+                  }
+
+              }
+          });
+        }
     @endif
 
 </script>

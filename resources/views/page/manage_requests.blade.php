@@ -400,7 +400,7 @@
         if (result.value) {
           $("#loader").show();
           $.ajax({
-               url: "{{ url('api/deleteRequest') }}/"+id,
+               url: "{{ url('api/rejectRequest') }}/"+id,
                success:function(data) {
                  $("#loader").hide();
                  swalWithBootstrapButtons(

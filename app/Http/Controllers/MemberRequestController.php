@@ -9,6 +9,7 @@ use App\Batch;
 use Carbon\Carbon;
 use App\MemberRequest;
 use App\TrainingRequest;
+use App\Http\Controllers\ActivityLogController;
 use Validator;
 
 class MemberRequestController extends Controller
@@ -374,9 +375,37 @@ class MemberRequestController extends Controller
       default:
         break;
     }
+    $activityLog = array(
+      'member_name' => $member_request->first_name.' '.$member_request->last_name,
+      'action' => $member_request->action,
+      'network_id' => $member_request->network_id,
+      'approved' => 1,
+    );
+    $activityLogController = new ActivityLogController();
+    $activityLogController->create($activityLog);
     $member_request->delete();
     $training_request->delete();
     return 204;
+  }
+
+  public function rejectRequest($id)
+  {
+      $member_request = MemberRequest::findOrFail($id);
+      $training_request = TrainingRequest::where('member', $member_request->id)->first();
+      if ($member_request->dp_filename != "default.png" && $member_request->dp_filename != $member->dp_filename ) {
+        unlink(public_path().'/dp/'.$member_request->dp_filename);
+      }
+      $activityLog = array(
+        'member_name' => $member_request->first_name.' '.$member_request->last_name,
+        'action' => $member_request->action,
+        'network_id' => $member_request->network_id,
+        'approved' => 0,
+      );
+      $activityLogController = new ActivityLogController();
+      $activityLogController->create($activityLog);
+      $member_request->delete();
+      $training_request->delete();
+      return 204;
   }
 
   public function delete($id)

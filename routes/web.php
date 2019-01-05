@@ -35,3 +35,4 @@ Route::get('pepsol', 'PepsolReportController@index')->name("pepsol")->middleware
 Route::get('myNetwork', 'MyNetworkController@showMyNetworkMenu')->name("myNetwork")->middleware('auth');
 Route::get('myNetwork/manageMembers', 'MyNetworkController@manageMembers')->name("myNetworkMembers")->middleware('auth');
 Route::get('myNetwork/manageRequests', 'MyNetworkController@manageRequests')->name("myNetworkRequests")->middleware('auth');
+Route::get('myNetwork/acitivityLogs', 'MyNetworkController@acitivityLogs')->name("myNetworkActivityLogs")->middleware('auth');
