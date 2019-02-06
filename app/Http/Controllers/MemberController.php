@@ -389,9 +389,9 @@ class MemberController extends Controller
                   }
 
                   if ($member->level > $old_level) {
-                    $under->level++;
+                    $under->level = $under->level + 1;
                   }else if ($member->level < $old_level) {
-                    $under->level--;
+                    $under->level = $under->level - 1;
                   }
 
                   $under->leader_code = $this->generateLeaderCode($under);

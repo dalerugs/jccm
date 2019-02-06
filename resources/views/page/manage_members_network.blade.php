@@ -538,6 +538,7 @@
 
     $( "#addNewBtn" ).click(function() {
       $("#modalTitle").text("Add New Member");
+      $('input[name="id"]').val("0");
       $( "#saveNewBtn" ).show();
       $( "#saveEditBtn" ).hide();
       $('input[name="id"]').hide();
@@ -580,7 +581,7 @@
       var level =   $("select[name='level']").val();
       html = "<option value='' disabled selected value>Select Leader</option>";
       $.each( members, function( key, member ) {
-        if (member.level==(parseInt(level)-1)) {
+        if (member.level==(parseInt(level)-1) && $('input[name="id"]').val() != member.id) {
           html += "<option value='"+member.id+"' >"+member.first_name+" "+member.last_name+"</option>";
         }
        });

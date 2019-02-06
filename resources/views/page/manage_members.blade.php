@@ -526,6 +526,7 @@
       $("#modalTitle").text("Add New Member");
       $( "#saveNewBtn" ).show();
       $( "#saveEditBtn" ).hide();
+      $('input[name="id"]').val("0");
       $('input[name="id"]').hide();
       $('input[name="first_name"]').val("");
       $('input[name="last_name"]').val("");
@@ -576,7 +577,7 @@
       var level =   $("select[name='level']").val();
       html = "<option value='' disabled selected value>Select Leader</option>";
       $.each( members, function( key, member ) {
-        if (member.network_id == networkId && member.level==(parseInt(level)-1)) {
+        if (member.network_id == networkId && member.level==(parseInt(level)-1) && $('input[name="id"]').val() != member.id) {
           html += "<option value='"+member.id+"' >"+member.first_name+" "+member.last_name+"</option>";
         }
        });
@@ -587,7 +588,7 @@
         var sex = this.value;
         html = "<option value='' disabled selected value>Select Network Leader</option>";
         $.each( members, function( key, member ) {
-          if (member.sex == sex && member.level == 1) {
+          if (member.sex == sex && member.level == 1 && $('input[name="id"]').val() != member.id) {
             html += "<option value='"+member.id+"' >"+member.first_name+" "+member.last_name+"</option>";
           }
          });
@@ -776,7 +777,7 @@
                  );
                }
            });
-        } 
+        }
       });
     }
 

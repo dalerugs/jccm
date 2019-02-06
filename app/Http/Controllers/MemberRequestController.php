@@ -318,18 +318,17 @@ class MemberRequestController extends Controller
             'sex' => $member_request->sex,
             'address' => $member_request->address,
             'level' => $member_request->level,
+            'leader_code' => $member_request->leader_code,
             'network_id' => $member_request->network_id,
-            'dp_filename' => $member_request->dp_filename,
+            'leader_id' => $member_request->leader_id,
             'dp_filename' => $member_request->dp_filename,
         ]);
 
-        if ($member->level != $old_level ||
-            $member->leader_id != $old_leader_id ||
-            $member->network_id != $old_network_id) {
+        if ($member_request->level != $old_level ||
+            $member_request->leader_id != $old_leader_id ||
+            $member_request->network_id != $old_network_id) {
 
               $old_leader_code = $member->leader_code;
-              $member->leader_code = $this->generateLeaderCode($member);
-              $member->save();
 
               $member_unders = Member::where('leader_code','like',$old_leader_code."-%")->get();
               foreach ($member_unders as $under) {
@@ -337,10 +336,10 @@ class MemberRequestController extends Controller
                   $under->network_id = $member->network_id;
                 }
 
-                if ($member->level > $old_level) {
-                  $under->level++;
-                }else if ($member->level < $old_level) {
-                  $under->level--;
+                if ($member_request->level > $old_level) {
+                  $under->level = $under->level + 1;
+                }else if ($member_request->level < $old_level) {
+                  $under->level = $under->level - 1;
                 }
 
                 $under->leader_code = $this->generateLeaderCode($under);
