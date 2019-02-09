@@ -221,6 +221,24 @@
                   @endforeach
               </select>
             </div>
+
+            <div class="form-group">
+              <label>Spiritual Lifestyle</label><br />
+              <label>Category: <span id="category"></span></label><br />
+
+              <input type="checkbox" name="devotion_cb" /> Devotion</label> <br />
+              <input type="hidden" name="devotion" />
+
+              <input type="checkbox" name="cell_group_cb" /> Cell Group</label> <br />
+              <input type="hidden" name="cell_group" />
+
+              <input type="checkbox" name="sunday_service_cb" /> Sunday Service</label> <br />
+              <input type="hidden" name="sunday_service" />
+
+              <input type="checkbox" name="training_cb" /> Trainings</label> <br />
+              <input type="hidden" name="training" />
+
+            </div>
           </div>
 
         </form>
@@ -344,6 +362,27 @@
 @section('js')
 
 <script>
+
+    $("input[type='checkbox']").on('change', function() {
+      var devotion = $("input[name='devotion_cb']").is(":checked");
+      var cellGroup = $("input[name='cell_group_cb']").is(":checked");
+      var sundayService = $("input[name='sunday_service_cb']").is(":checked");
+      var training = $("input[name='training_cb']").is(":checked");
+      var counter = 0;
+      if (devotion) {counter += 1;}
+      if (cellGroup) {counter += 1;}
+      if (sundayService) {counter += 1;}
+      if (training) {counter += 1;}
+
+      if (counter == 1) { $("#category").text("4"); }
+      else if (counter == 2) { $("#category").text("3"); }
+      else if (counter == 3) { $("#category").text("2"); }
+      else if (counter == 4) { $("#category").text("1"); }
+      else { $("#category").text(""); }
+
+      var formData = new FormData($("#dataForm")[0]);
+      console.log($("#dataForm"));
+    });
 
     const fileInput = document.getElementById('picture');
     const output = document.getElementById('output');
@@ -523,6 +562,7 @@
     }
 
     $( "#addNewBtn" ).click(function() {
+      $('input[type="checkbox').prop('checked', false);
       $("#modalTitle").text("Add New Member");
       $( "#saveNewBtn" ).show();
       $( "#saveEditBtn" ).hide();

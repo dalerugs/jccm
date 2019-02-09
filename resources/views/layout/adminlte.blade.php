@@ -107,11 +107,6 @@
         <i class="fa fa-line-chart"></i> <span>PEPSOL Report</span>
       </a>
     </li>
-		<li id="filesNav" >
-      <a href="{{route('files')}}">
-        <i class="fa fa-files-o"></i> <span>Files</span>
-      </a>
-    </li>
     @if(Auth::user()->type=="ADMIN")
     <li id="adminNav" >
       <a href="{{route('admin')}}">
