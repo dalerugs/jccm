@@ -14,6 +14,7 @@ class ActivityLogController extends Controller
         'action' => $data['action'],
         'network_id' => $data['network_id'],
         'approved' => $data['approved'],
+        'notes' => $data['notes'],
       ]);
     }
 

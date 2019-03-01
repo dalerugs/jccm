@@ -379,6 +379,7 @@ class MemberRequestController extends Controller
       'action' => $member_request->action,
       'network_id' => $member_request->network_id,
       'approved' => 1,
+      'notes' => "",
     );
     $activityLogController = new ActivityLogController();
     $activityLogController->create($activityLog);
@@ -387,9 +388,10 @@ class MemberRequestController extends Controller
     return 204;
   }
 
-  public function rejectRequest($id)
+  public function rejectRequest(Request $request)
   {
-      $member_request = MemberRequest::findOrFail($id);
+      $member_request = MemberRequest::findOrFail($request->input('id'));
+      $member = Member::findOrFail($member_request->member);
       $training_request = TrainingRequest::where('member', $member_request->id)->first();
       if ($member_request->dp_filename != "default.png" && $member_request->dp_filename != $member->dp_filename ) {
         unlink(public_path().'/dp/'.$member_request->dp_filename);
@@ -399,6 +401,7 @@ class MemberRequestController extends Controller
         'action' => $member_request->action,
         'network_id' => $member_request->network_id,
         'approved' => 0,
+        'notes' => $request->input('note'),
       );
       $activityLogController = new ActivityLogController();
       $activityLogController->create($activityLog);

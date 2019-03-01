@@ -19,6 +19,7 @@
             <th>MEMBER</th>
             <th>ACTION</th>
             <th>STATUS</th>
+            <th>NOTE</th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -54,6 +55,7 @@
                   "<td>"+logs.member_name+"</td>" +
                   "<td>"+logs.action+"</td>" +
                   "<td>"+(logs.approved==1?'Approved':'Rejected')+"</td>" +
+                  "<td>"+logs.notes+"</td>" +
                 "</tr>";
                 });
                 $("#tableBody").html(html);

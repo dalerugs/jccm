@@ -177,6 +177,28 @@
   </div>
 </div>
 
+<div id="noteModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Note</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <input type="hidden" id="requestId">
+          <textarea class="form-control" rows="5" name="note" placeholder="Reason why this request is rejected . . ."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success" onclick="addNoteButton()" >Proceed</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @section('js')
@@ -338,7 +360,7 @@
              $('#sol3').html((member.training.sol3)?"<i class='fa fa-check' aria-hidden='true'></i>":"");
              $('#baptism').text((!member.training.baptism)?"N/A":member.training.baptism);
              $("#loader").hide();
-             $( "#viewModal" ).modal({backdrop: 'static', keyboard: false});;
+             $( "#viewModal" ).modal({backdrop: 'static', keyboard: false});
            }
        });
     }
@@ -398,23 +420,37 @@
         reverseButtons: true
       }).then((result) => {
         if (result.value) {
-          $("#loader").show();
-          $.ajax({
-               url: "{{ url('api/rejectRequest') }}/"+id,
-               success:function(data) {
-                 $("#loader").hide();
-                 swalWithBootstrapButtons(
-                   'Success!',
-                   '',
-                   'success'
-                 ).then(function(){
-                    location.reload();
-                    }
-                 );
-               }
-           });
+          $("#requestId").val(id);
+          $( "#noteModal" ).modal({backdrop: 'static', keyboard: false});
         }
       });
+    }
+
+    function addNoteButton(){
+      var id = $("#requestId").val();
+      $( "#noteModal" ).modal('hide');
+      $("#loader").show();
+      $.ajax({
+           url: "{{ route('rejectRequest') }}",
+           type: 'POST',
+           dataType: 'json',
+           data: {
+             'id': id,
+             'note' : $('textarea[name="note"]').val()
+           },
+           success:function(data) {
+             $("#loader").hide();
+             swal({
+               title: "Success!",
+               text: "",
+               type:
+               "success"
+             }).then(function(){
+                location.reload();
+                }
+             );
+           }
+       });
     }
 
 </script>

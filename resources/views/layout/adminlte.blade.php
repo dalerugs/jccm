@@ -142,7 +142,7 @@
  <!-- /.content-wrapper -->
  <footer class="main-footer">
    <div  class="pull-right">
-     <b>Version</b> 1.0
+     <b>Version</b> 1.1
    </div>
    <!-- <div style="margin-right:2%" class="pull-right hidden-xs">
      <b>IP</b> {{getHostByName(getHostName())}}

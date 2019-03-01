@@ -52,7 +52,7 @@ Route::get('readRequests', 'MemberRequestController@read')->name("readRequests")
 Route::post('readRequestsWithFilter', 'MemberRequestController@readWithFilter')->name("readRequestsWithFilter");
 Route::get('showRequest/{id}', 'MemberRequestController@show')->name("showRequest");
 Route::get('approveRequest/{id}', 'MemberRequestController@approveRequest')->name("approveRequest");
-Route::get('rejectRequest/{id}', 'MemberRequestController@rejectRequest')->name("rejectRequest");
+Route::post('rejectRequest', 'MemberRequestController@rejectRequest')->name("rejectRequest");
 Route::get('deleteRequest/{id}', 'MemberRequestController@delete')->name("deleteRequest");
 Route::get('countRequests', 'MemberRequestController@count')->name("countRequests");
 
